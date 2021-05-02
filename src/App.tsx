@@ -15,6 +15,8 @@ const TITLE = '@alisher';
 const TYPE_TRANSFER = "transfer";
 const TYPE_BUYSELL = "buysell";
 
+const CELLS_MAX_COUNT = 30;
+
 //Transaction interface
 interface Transfer {
     id: number,
@@ -113,7 +115,7 @@ const App = () => {
             <div className="title">{TITLE}</div>
             {
                 transfers &&
-                transfers.slice(0).reverse().map((transaction: any) => {
+                transfers.slice(0).reverse().slice(0, CELLS_MAX_COUNT).map((transaction: any) => {
                     if (transaction.type === TYPE_BUYSELL && transaction.action === 'buy') {
                         return renderCoinAction(transaction);
                     }
