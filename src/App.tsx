@@ -41,8 +41,8 @@ function hasKey<O>(obj: O, key: keyof any): key is keyof O {
     return key in obj
 }
 const buy_sell_actions = {
-    buy: 'Bought',
-    sell: 'Sold'
+    buy: 'bought',
+    sell: 'sold'
 };
 
 function App() {
@@ -86,7 +86,7 @@ function App() {
             <div className="message" key={transaction.id}>
                 <span className="messageActor">@{transaction.from_username}</span>
                 <div className="action">
-                    <span> Sent</span>
+                    <span> sent</span>
                     {
                         transaction.coin
                             ? <span> {transaction.amount} {transaction.coin}</span>
