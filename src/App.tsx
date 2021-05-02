@@ -9,7 +9,7 @@ const API_URL = 'https://lljsiwnnhg.execute-api.eu-central-1.amazonaws.com';
 // Parameters for displaying
 const TARGET_PK = 'BC1YLg7BTSVWu4UUVZUrpGjUQgecTmeZVcbCTZs1FX1mWipSbZKyJ2j'; //todo from page params if possible in obs
 const POLLING_INTERVAL = 3000;
-const TITLE = '@Alisher';
+const TITLE = '@alisher';
 // var EXCHANGE_RATE = 168;
 
 const TYPE_TRANSFER = "transfer";
