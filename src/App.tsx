@@ -103,7 +103,7 @@ function App() {
                 <span className="messageActor">@{transaction.actor}</span>
                 <div className="action">
                     <span> {hasKey(buy_sell_actions, transaction.action) ? buy_sell_actions[transaction.action] : "---"}</span>
-                    <span> {transaction.amount} $</span>
+                    <span> {transaction.amount} USD</span>
                 </div>
             </div>
         )
