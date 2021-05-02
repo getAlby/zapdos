@@ -59,7 +59,7 @@ const App = () => {
                     .filter((transaction: Transfer) => transaction.to_pk === TARGET_PK && transaction.id > lastId)
                     .map((transaction: Transfer) => ({ ...transaction, type: TYPE_TRANSFER }));
                 if (newUserTransactions.length) {
-                    setTransfers([ ...transfers, ...newUserTransactions ]);
+                    setTransfers((prevTransfers: any) => [ ...prevTransfers, ...newUserTransactions ]);
                     setLastId(newUserTransactions[newUserTransactions.length - 1].id);
                 }
             })
@@ -73,7 +73,7 @@ const App = () => {
                     .filter((transaction: BuySellTransaction) => transaction.target_pk === TARGET_PK && transaction.id > coinsLastId)
                     .map((transaction: Transfer) => ({ ...transaction, type: TYPE_BUYSELL }))
                 if (newUserTransactions.length) {
-                    setTransfers([ ...transfers, ...newUserTransactions ]);
+                    setTransfers((prevTransfers: any) => [ ...prevTransfers, ...newUserTransactions ]);
                     setCoinsLastId(newUserTransactions[newUserTransactions.length - 1].id);
                 }
             })
