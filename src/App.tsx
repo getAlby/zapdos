@@ -32,7 +32,7 @@ const App = () => {
             .then(data => {
                 // filter only new transactions for target user
                 const newUserTransactions = data.transactions
-                    .filter((transaction: Transfer) => transaction.id > lastId)
+                    .filter((transaction: Transfer) =>  transaction.to_pk === TARGET_PK && transaction.id > lastId)
                     .map((transaction: Transfer) => ({ ...transaction, type: TYPE_TRANSFER }));
                 if (newUserTransactions.length) {
                     setTransfers((prevTransfers: any) => [
@@ -49,7 +49,7 @@ const App = () => {
                 console.log(data)
                 // filter only new transactions for target user
                 const newUserTransactions = data.transactions
-                    .filter((transaction: BuySellTransaction) => transaction.id > coinsLastId)
+                    .filter((transaction: BuySellTransaction) =>  transaction.target_pk === TARGET_PK && transaction.id > coinsLastId)
                     .map((transaction: Transfer) => ({ ...transaction, type: TYPE_BUYSELL }))
                 if (newUserTransactions.length) {
                     setTransfers((prevTransfers: any) => [
