@@ -10,8 +10,8 @@ function hasKey<O>(obj: O, key: keyof any): key is keyof O {
     return key in obj
 }
 const buy_sell_actions = {
-    buy: 'bought coins on',
-    sell: 'sold coins on'
+    buy: 'bought',
+    sell: 'sold'
 };
 
 const ListMessage: React.FC<Props> = ({ transaction }) => {
@@ -24,7 +24,7 @@ const ListMessage: React.FC<Props> = ({ transaction }) => {
                     {
                         transaction.coin
                             ? <span> {transaction.amount} {transaction.coin}</span>
-                            : <span> ${transaction.amount} USD</span>
+                            : <span> {transaction.amount} USD</span>
                     }
                 </div>
             </div>
@@ -37,7 +37,7 @@ const ListMessage: React.FC<Props> = ({ transaction }) => {
                 <span className="messageActor">@{transaction.actor}</span>
                 <div className="action">
                     <span> {hasKey(buy_sell_actions, transaction.action) ? buy_sell_actions[transaction.action] : "---"}</span>
-                    <span> ${transaction.amount} USD</span>
+                    <span> {transaction.amount} worth of coins</span>
                 </div>
             </div>
         )
