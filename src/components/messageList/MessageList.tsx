@@ -1,6 +1,7 @@
-import Message from "../message/Message";
+import ListMessage from "./listMessage/ListMessage";
 import React from "react";
 import {BuySellTransaction, Transfer} from "../helpers";
+import './style.css';
 
 interface Props {
     title: string;
@@ -11,15 +12,15 @@ const CELLS_MAX_COUNT = 30;
 
 const MessageList: React.FC<Props> = ({ title, transfers }) => {
     return (
-        <>
+        <div className="messageList">
             <div className = "title" >{title}</div>
             {
                 transfers &&
                 transfers.slice(0, CELLS_MAX_COUNT).map((transaction: any) => {
-                    return <Message transaction = {transaction} />;
+                    return <ListMessage transaction={transaction} />;
                 })
             }
-        </>
+        </div>
     );
 }
 

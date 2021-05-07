@@ -3,26 +3,27 @@ import './App.css';
 import {useInterval} from "./helpers";
 import {BuySellTransaction, Transfer, TYPE_BUYSELL, TYPE_TRANSFER} from "./components/helpers";
 import MessageList from "./components/messageList/MessageList";
+import MessageRotator from "./components/messageRotator/MessageRotator";
 
 const REQUEST_DATA = { "last_id": -1 };
 //const API_URL = 'http://185.20.226.75:5050';
 const API_URL = 'https://lljsiwnnhg.execute-api.eu-central-1.amazonaws.com';
 
 // Parameters for displaying
-const TARGET_PK = 'BC1YLg7BTSVWu4UUVZUrpGjUQgecTmeZVcbCTZs1FX1mWipSbZKyJ2j'; //todo from page params if possible in obs
+const TARGET_PK = 'BC1YLj4RY8H6YXPWaDcw5PVwJYTrSgbXtTpA8hYaTggQBZxwYB2mPEJ'; //todo from page params if possible in obs
 const POLLING_INTERVAL = 3000;
-const TITLE = '@alisher';
+const TITLE = '@HYPED';
 // var EXCHANGE_RATE = 168;
 
 
 const MESSAGES_TYPE_LIST = 'list';
+const MESSAGES_TYPE_ROTATOR = 'rotator';
 // const MESSAGES_TYPE_POPUP = 'popup';
 
-const messagesType = MESSAGES_TYPE_LIST;
+let messagesType = MESSAGES_TYPE_ROTATOR;
 
 const App = () => {
     const [ transfers, setTransfers ] = useState<any>([]);
-    // const [ newTransfersQueue, setNewTransfersQueue ] = useState([]);
     const [ lastId, setLastId ] = useState(-1);
     const [ coinsLastId, setCoinsLastId] = useState(-1);
 
@@ -32,7 +33,7 @@ const App = () => {
             .then(data => {
                 // filter only new transactions for target user
                 const newUserTransactions = data.transactions
-                    .filter((transaction: Transfer) =>  transaction.to_pk === TARGET_PK && transaction.id > lastId)
+                    .filter((transaction: Transfer) => transaction.to_pk === TARGET_PK && transaction.id > lastId)
                     .map((transaction: Transfer) => ({ ...transaction, type: TYPE_TRANSFER }));
                 if (newUserTransactions.length) {
                     setTransfers((prevTransfers: any) => [
@@ -49,7 +50,7 @@ const App = () => {
                 console.log(data)
                 // filter only new transactions for target user
                 const newUserTransactions = data.transactions
-                    .filter((transaction: BuySellTransaction) =>  transaction.target_pk === TARGET_PK && transaction.id > coinsLastId)
+                    .filter((transaction: BuySellTransaction) => transaction.target_pk === TARGET_PK && transaction.id > coinsLastId)
                     .map((transaction: Transfer) => ({ ...transaction, type: TYPE_BUYSELL }))
                 if (newUserTransactions.length) {
                     setTransfers((prevTransfers: any) => [
@@ -67,6 +68,10 @@ const App = () => {
             {
                 messagesType === MESSAGES_TYPE_LIST &&
                     <MessageList title={TITLE} transfers={transfers}/>
+            }
+            {
+                messagesType === MESSAGES_TYPE_ROTATOR &&
+                    <MessageRotator title={TITLE} transfers={transfers} />
             }
         </div>
     );

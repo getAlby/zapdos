@@ -1,5 +1,5 @@
 import React from "react";
-import {BuySellTransaction, Transfer} from "../helpers";
+import {BuySellTransaction, Transfer} from "../../helpers";
 import './style.css';
 
 interface Props {
@@ -14,7 +14,7 @@ const buy_sell_actions = {
     sell: 'sold coins on'
 };
 
-const Message: React.FC<Props> = ({ transaction }) => {
+const ListMessage: React.FC<Props> = ({ transaction }) => {
     if (transaction.type === 'transfer') {
         return (
             <div className="message">
@@ -46,4 +46,4 @@ const Message: React.FC<Props> = ({ transaction }) => {
     return null;
 }
 
-export default Message;
+export default ListMessage;
