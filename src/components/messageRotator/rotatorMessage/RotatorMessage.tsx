@@ -19,7 +19,7 @@ const RotatorMessage: React.FC<Props> = ({ transaction, target }) => {
     if (transaction.type === 'transfer') {
         return (
             <div className="rotatorMessage">
-                <span className="messageActor">@{transaction.from_username}</span>
+                <span className="rotatorMessageActor">@{transaction.from_username}</span>
                 <span> tipped</span>
                 {
                     transaction.coin
@@ -27,7 +27,7 @@ const RotatorMessage: React.FC<Props> = ({ transaction, target }) => {
                         : (
                             <>
                                 <span> ${transaction.amount} USD to </span>
-                                <span className="messageActor">{target}</span>
+                                <span className="rotatorMessageActor">{target}</span>
                             </>
                         )
                 }
@@ -38,10 +38,10 @@ const RotatorMessage: React.FC<Props> = ({ transaction, target }) => {
     if (transaction.type === 'buysell' && transaction.action === 'buy') {
         return (
             <div className="rotatorMessage">
-                <span className="messageActor">@{transaction.actor}</span>
+                <span className="rotatorMessageActor">@{transaction.actor}</span>
                 <span> {hasKey(buy_sell_actions, transaction.action) ? buy_sell_actions[transaction.action] : "---"}</span>
                 <span> ${transaction.amount} USD of </span>
-                <span className="messageActor">{target}</span>
+                <span className="rotatorMessageActor">{target}</span>
             </div>
         )
     }

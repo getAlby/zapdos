@@ -1,20 +1,21 @@
 .rotatorMessage {
+    color: #000;
     font-size: 28px;
     right: 0;
     bottom: 0;
     padding: 14px;
 }
 
-.messageActor {
-    color: #255AF6;
+.rotatorMessageActor {
+    color: #000;
     background-color: white;
 }
 
-.actor {
+.rotatorActor {
     background-color: white;
-    color: #0041FF;
+    color: #000;
 }
 
-.action {
-    color: white;
+.rotatorAction {
+    color: black;
 }
