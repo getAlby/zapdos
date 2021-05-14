@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { BuySellTransaction, Transfer } from "../helpers";
 import './style.css';
-import RotatorMessage from "./rotatorMessage/RotatorMessage";
+import RotatorMessage from "./RotatorMessage/RotatorMessage";
 import { useInterval } from "../../helpers";
 
 interface Props {

@@ -2,25 +2,26 @@ import React, {useState} from 'react';
 import './App.css';
 import {useInterval} from "./helpers";
 import {BuySellTransaction, Transfer, TYPE_BUYSELL, TYPE_TRANSFER} from "./components/helpers";
-import MessageList from "./components/messageList/MessageList";
-import MessageRotator from "./components/messageRotator/MessageRotator";
+import MessageList from "./components/MessageList/MessageList";
+import MessageRotator from "./components/MessageRotator/MessageRotator";
+import MessageTicker from "./components/MessageTicker/MessageTicker";
 
 const REQUEST_DATA = { "last_id": -1 };
 //const API_URL = 'http://185.20.226.75:5050';
 const API_URL = 'https://lljsiwnnhg.execute-api.eu-central-1.amazonaws.com';
 
 // Parameters for displaying
-const TARGET_PK = 'BC1YLj4RY8H6YXPWaDcw5PVwJYTrSgbXtTpA8hYaTggQBZxwYB2mPEJ'; //todo from page params if possible in obs
+const TARGET_PK = 'BC1YLiakchpRKF5y8s7fRazgbWC94CQc4tfuTwW8Gj3WtiPR9jPRkf3'; //todo from page params if possible in obs
 const POLLING_INTERVAL = 3000;
-const TITLE = '@HYPED';
+const TITLE = '@dvoroneca';
 // var EXCHANGE_RATE = 168;
 
 
 const MESSAGES_TYPE_LIST = 'list';
 const MESSAGES_TYPE_ROTATOR = 'rotator';
-// const MESSAGES_TYPE_POPUP = 'popup';
+const MESSAGES_TYPE_TICKER = 'MessageTicker';
 
-let messagesType = MESSAGES_TYPE_ROTATOR;
+let messagesType = MESSAGES_TYPE_TICKER;
 
 const App = () => {
     const [ transfers, setTransfers ] = useState<any>([]);
@@ -72,6 +73,10 @@ const App = () => {
             {
                 messagesType === MESSAGES_TYPE_ROTATOR &&
                     <MessageRotator title={TITLE} transfers={transfers} />
+            }
+            {
+                messagesType === MESSAGES_TYPE_TICKER &&
+                    <MessageTicker title={TITLE} transfers={transfers} />
             }
         </div>
     );

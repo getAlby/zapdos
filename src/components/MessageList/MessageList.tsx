@@ -1,4 +1,4 @@
-import ListMessage from "./listMessage/ListMessage";
+import ListMessage from "./ListMessage/ListMessage";
 import React from "react";
 import {BuySellTransaction, Transfer} from "../helpers";
 import './style.css';
