@@ -4,15 +4,16 @@
     right: 0;
     bottom: 0;
     padding: 14px;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .rotatorMessageActor {
     color: #000;
-    background-color: white;
+    background-color: #42FF00;
 }
 
 .rotatorActor {
-    background-color: white;
+    background-color: #42FF00;
     color: #000;
 }
 

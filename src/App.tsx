@@ -11,9 +11,9 @@ const REQUEST_DATA = { "last_id": -1 };
 const API_URL = 'https://lljsiwnnhg.execute-api.eu-central-1.amazonaws.com';
 
 // Parameters for displaying
-const TARGET_PK = 'BC1YLiakchpRKF5y8s7fRazgbWC94CQc4tfuTwW8Gj3WtiPR9jPRkf3'; //todo from page params if possible in obs
+const TARGET_PK = 'BC1YLffukoCJJAexR5BVfDDNtBUUdQyvtufrDVGm2uzjFeJ2DKwjqnR'; //todo from page params if possible in obs
 const POLLING_INTERVAL = 3000;
-const TITLE = '@dvoroneca';
+const TITLE = '@BitVibe';
 // var EXCHANGE_RATE = 168;
 
 
@@ -21,7 +21,7 @@ const MESSAGES_TYPE_LIST = 'list';
 const MESSAGES_TYPE_ROTATOR = 'rotator';
 const MESSAGES_TYPE_TICKER = 'MessageTicker';
 
-let messagesType = MESSAGES_TYPE_TICKER;
+let messagesType = MESSAGES_TYPE_ROTATOR;
 
 const App = () => {
     const [ transfers, setTransfers ] = useState<any>([]);
