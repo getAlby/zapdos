@@ -2,4 +2,4 @@
 set -euo pipefail
 yarn build
 aws s3 cp --recursive ./build/ s3://bitclout-donations-slcfzv7r3xzr4mhihfft2p
-aws cloudfront create-invalidation --distribution E1ZGTGL1HXIV1D --paths /
+aws cloudfront create-invalidation --distribution E1ZGTGL1HXIV1D --paths "/*"
