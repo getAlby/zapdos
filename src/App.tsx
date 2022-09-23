@@ -3,8 +3,8 @@ import './App.css';
 import {useInterval} from "./helpers";
 import { Transfer, TYPE_TRANSFER} from "./components/helpers";
 import MessageList from "./components/MessageList/MessageList";
-import MessageRotator from "./components/MessageRotator/MessageRotator";
-import MessageTicker from "./components/MessageTicker/MessageTicker";
+import Login from "./components/Login";
+import GenerateLinkPage from './components/GenerateLinkPage';
 
 //const API_URL = 'http://185.20.226.75:5050';
 const API_URL = 'https://app.regtest.getalby.com/api';
@@ -16,15 +16,15 @@ const TITLE = 'Lightning Donations';
 // var EXCHANGE_RATE = 168;
 
 
-const MESSAGES_TYPE_LIST = 'list';
-const MESSAGES_TYPE_ROTATOR = 'rotator';
-const MESSAGES_TYPE_TICKER = 'MessageTicker';
-
-let messagesType = MESSAGES_TYPE_LIST;
-
 const App = () => {
     const [ transfers, setTransfers ] = useState<any>([]);
     const [ lastId, setLastId ] = useState(new Date().toISOString());
+    const query = window.location.search;
+    const params = new URLSearchParams(query);
+    const code = params.get("code")
+    const accessToken = params.get("access_token")
+    const refreshToken = params.get("refresh_token")
+
 
     useInterval(() => {
         fetch(API_URL+'/invoices/incoming', { method: 'get' , headers: {'Authorization': authToken}})
@@ -50,16 +50,13 @@ const App = () => {
     return (
         <div className="App">
             {
-                messagesType === MESSAGES_TYPE_LIST &&
-                    <MessageList title={TITLE} transfers={transfers}/>
+                code == null && <Login></Login>
             }
             {
-                messagesType === MESSAGES_TYPE_ROTATOR &&
-                    <MessageRotator title={TITLE} transfers={transfers} />
+                code != null && <GenerateLinkPage></GenerateLinkPage>
             }
             {
-                messagesType === MESSAGES_TYPE_TICKER &&
-                    <MessageTicker title={TITLE} transfers={transfers} />
+                accessToken != null && refreshToken != null && <MessageList title={''} transfers={[]}></MessageList>
             }
         </div>
     );
