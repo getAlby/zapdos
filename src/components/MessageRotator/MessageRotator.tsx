@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import { BuySellTransaction, Transfer } from "../helpers";
+import { Transfer } from "../helpers";
 import './style.css';
 import RotatorMessage from "./RotatorMessage/RotatorMessage";
 import { useInterval } from "../../helpers";
 
 interface Props {
     title: string;
-    transfers: Transfer[] | BuySellTransaction[];
+    transfers: Transfer[] ;
 }
 
 const ROTATE_INTERVAL = 10000;

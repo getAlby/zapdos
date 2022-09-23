@@ -1,23 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {BuySellTransaction, Transfer} from "../helpers";
+import { Transfer} from "../helpers";
 import './style.css';
-import ListMessage from "../MessageList/ListMessage/ListMessage";
 import Ticker from "react-ticker";
-import TickerContent from "./TickerContent/TickerContent";
 import {useInterval} from "../../helpers";
 import TickerMessage from "./TickerMessage/TickerMessage";
 
 interface Props {
     title: string;
-    transfers: Transfer[] | BuySellTransaction[];
+    transfers: Transfer[] ;
 }
 
-const CHECK_INTERVAL = 10000;
+const CHECK_INTERVAL = 2000;
 
 const MessageTicker: React.FC<Props> = ({ title, transfers }) => {
-    const [ currentNewTransfer, setCurrentNewTransfer ] = useState(-1);
     const [ oldTransfersCount, setOldTransfersCount ] = useState(0);
-    const [ currentTransfer, setCurrentTransfer ] = useState(-1);
     const [ newTransfers, setNewTransfers ] = useState<any>([]);
     const [ currentPopup, setCurrentPopup ] = useState<any>();
 

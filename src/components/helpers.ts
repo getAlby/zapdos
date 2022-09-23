@@ -4,13 +4,11 @@ export const TYPE_BUYSELL = "buysell";
 //Transaction interface
 export interface Transfer {
     id: number,
-    type: 'transfer',
     amount: number,
-    from_pk: string,
-    from_username: string,
-    to_pk: string,
-    to_username: string,
-    coin: string,
+    payer_name: string,
+    type: string,
+    comment: string,
+    settled_at: string,
 }
 
 export type BuySellKey = 'buy' | 'sell'
