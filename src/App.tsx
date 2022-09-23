@@ -24,12 +24,13 @@ let messagesType = MESSAGES_TYPE_LIST;
 
 const App = () => {
     const [ transfers, setTransfers ] = useState<any>([]);
-    const [ lastId, setLastId ] = useState("");
+    const [ lastId, setLastId ] = useState(new Date().toISOString());
 
     useInterval(() => {
         fetch(API_URL+'/invoices/incoming', { method: 'get' , headers: {'Authorization': authToken}})
             .then(res => res.json())
             .then(data => {
+                console.log(lastId)
                 // filter only new transactions for target user
                 const newUserTransactions = data
                     .filter((transaction: Transfer) => transaction.settled_at > lastId)
