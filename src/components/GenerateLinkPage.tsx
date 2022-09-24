@@ -20,7 +20,7 @@ const GenerateLinkPage = () => {
 	useEffect(
 		() => {
 			fetch(
-					{apiHost} + '/oauth/token', {method: 'post', body: data}
+					apiHost + '/oauth/token', {method: 'post', body: data}
 				)
 					.then(res => res.json())
 			        .then(data => {

@@ -28,7 +28,6 @@ const [ transfers, setTransfers ] = useState<any>([]);
 const [ lastId, setLastId ] = useState(new Date().toISOString());
 
     useInterval(() => {
-        console.log("here")
         fetch(API_URL+'/invoices/incoming', { method: 'get' , headers: {'Authorization': accessToken!}})
             .then(res => res.json())
             .then(data => {
