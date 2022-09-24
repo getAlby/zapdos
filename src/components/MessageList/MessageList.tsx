@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import {BuySellTransaction, Transfer, TYPE_TRANSFER} from "../helpers";
 import './style.css';
 import { useInterval } from "../../helpers";
+import {Config} from '../helpers'
 
 interface Props {
     title: string;
@@ -11,7 +12,7 @@ interface Props {
 
 const CELLS_MAX_COUNT = 30;
 //const API_URL = 'http://185.20.226.75:5050';
-const API_URL = 'https://api.regtest.getalby.com';
+const API_URL = Config.apiHost
 const query = window.location.search;
 const params = new URLSearchParams(query);
 const accessToken = params.get("access_token")

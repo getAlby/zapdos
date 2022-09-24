@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import {Config} from './helpers'
 
 const GenerateLinkPage = () => {
 
 	const [ link, setLink ] = useState("");
 	const query = window.location.search;
     const params = new URLSearchParams(query);
-	const host = "ln-donations-plugin-yw4i.vercel.app"
     const code = params.get("code")
+	const apiHost = Config.apiHost
 	const data = new FormData();
 	data.append('code', code!)
-	data.append('client_id', 'test_client')
-	data.append('client_secret', 'test_secret')
+	data.append('client_id', Config.clientId)
+	data.append('client_secret', Config.clientSecret)
 	data.append('grant_type', 'authorization_code')
-	data.append('redirect_uri', 'http://localhost:8080')
+	data.append('redirect_uri', Config.redirectUri)
+	const code_verifier = window.sessionStorage.getItem("code_verifier")
+	data.append('code_verifier', code_verifier!)
 	useEffect(
 		() => {
 			fetch(
-					'https://api.regtest.getalby.com/oauth/token', {method: 'post', body: data}
+					{apiHost} + '/oauth/token', {method: 'post', body: data}
 				)
 					.then(res => res.json())
 			        .then(data => {
-						setLink(`https://${host}?access_token=${data.access_token}&refresh_token=${data.refresh_token}`)
+						setLink(`https://${Config.hostName}?access_token=${data.access_token}&refresh_token=${data.refresh_token}`)
 					}
 				)
 		}, []

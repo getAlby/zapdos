@@ -1,10 +1,20 @@
-import React from "react";
-
+import pkceChallenge from 'pkce-challenge'
+import {Config} from './helpers'
 const Login = () => {
+
+	const challenge = pkceChallenge()
+	window.sessionStorage.setItem("code_verifier", challenge.code_verifier);
 
 	return (
 		<div>
-			<a href="https://app.regtest.getalby.com/oauth?client_id=test_client&redirect_uri=http://localhost:8080&scope=invoices:read">Connect your Alby account</a>
+			<a href= {Config.appHost
+				+ "?client_id="+ Config.clientId 
+				+ "&redirect_uri=" + Config.redirectUri
+				+ "&scope=" + Config.scope
+				+ "&code_challenge=" + challenge.code_challenge
+				+ "&code_challenge_method=S256"
+				}>
+				Connect your Alby account</a>
 		</div>
 	)
 }
