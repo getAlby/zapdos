@@ -20,7 +20,7 @@ export const Config = {
 //    clientSecret: "test_secret",
 //	redirectUri : "http://localhost:8080",
 //	scope : "invoices:read",
-//	hostName:  "ln-donations-plugin-yw4i.vercel.app"
+//	hostName:  "localhost:8080"
 //}
 
 //Transaction interface
