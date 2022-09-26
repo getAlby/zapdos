@@ -11,17 +11,14 @@ interface Props {
 }
 
 const CELLS_MAX_COUNT = 30;
-//const API_URL = 'http://185.20.226.75:5050';
 const API_URL = Config.apiHost
 const query = window.location.search;
 const params = new URLSearchParams(query);
 const accessToken = params.get("access_token")
-//const refreshToken = params.get("refresh_token")
 
 // Parameters for displaying
 const POLLING_INTERVAL = 3000;
-const TITLE = 'Lightning Donations';
-// var EXCHANGE_RATE = 168;
+
 const MessageList: React.FC<Props> = ({}) => {
 
 const [ transfers, setTransfers ] = useState<any>([]);
@@ -43,20 +40,20 @@ const [ lastId, setLastId ] = useState(new Date().toISOString());
                     ]);
                     setLastId(newUserTransactions[0].settled_at);
                 }
-                console.log(transfers)
             })
             .catch(e => console.log(e));
     }, POLLING_INTERVAL);
 
     return (
         <div className="messageList">
-            <div className = "title" >{TITLE}</div>
+            <div className="messageListContent">
             {
                 transfers &&
                 transfers.slice(0, CELLS_MAX_COUNT).map((transaction: any) => {
                     return <ListMessage transaction={transaction} />;
                 })
             }
+            </div>
         </div>
     );
 }

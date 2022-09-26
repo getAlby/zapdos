@@ -2,6 +2,8 @@ import './App.css';
 import MessageList from "./components/MessageList/MessageList";
 import Login from "./components/Login";
 import GenerateLinkPage from './components/GenerateLinkPage';
+import { Transfer } from './components/helpers';
+import Tipping from './components/Tipping/Tipping';
 
 const App = () => {
     const query = window.location.search;
@@ -18,7 +20,7 @@ const App = () => {
                 code != null && <GenerateLinkPage></GenerateLinkPage>
             }
             {
-                accessToken != null && refreshToken != null && <MessageList title={''} transfers={[]}></MessageList>
+                accessToken != null && refreshToken != null && <div><Tipping /><MessageList title={''} transfers={[]}></MessageList></div>
             }
         </div>
     );

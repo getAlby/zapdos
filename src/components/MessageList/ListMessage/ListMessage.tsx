@@ -9,16 +9,10 @@ interface Props {
 const ListMessage: React.FC<Props> = ({ transaction }) => {
     return (
         <div className="message">
-            <span className="messageActor">{transaction.payer_name}</span>
-            <div className="action">
-                <span> sent</span>
-                <span> {transaction.amount} SATs</span>
-            </div>
-            {
-                transaction.comment != null
-                ? <span>{transaction.comment}</span>
-                : <div></div>
-            }
+            <span className="name">{transaction.payer_name}</span>
+            <span className="amount"> {transaction.amount} SATS</span>
+            {transaction.comment != null && 
+                <span className="comment"> {transaction.comment}</span>}
         </div>
     );
 }
