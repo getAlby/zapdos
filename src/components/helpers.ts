@@ -8,7 +8,7 @@ export const Config = {
 	clientId : "qlO4P09vbP",
     clientSecret: "",
 	redirectUri : "https://ln-donations-plugin-yw4i.vercel.app",
-	scope : "invoices:read",
+	scope : "account:read%20invoices:read",
 	hostName:  "ln-donations-plugin-yw4i.vercel.app"
 }
 
