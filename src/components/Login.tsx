@@ -7,14 +7,14 @@ const Login = () => {
 
 	return (
 		<div>
-			<a href= {Config.appHost
+			<a className="btn" href={Config.appHost
 				+ "?client_id="+ Config.clientId 
 				+ "&redirect_uri=" + Config.redirectUri
 				+ "&scope=" + Config.scope
 				+ "&code_challenge=" + challenge.code_challenge
 				+ "&code_challenge_method=S256"
 				}>
-				Connect your Alby account</a>
+				🐝 Connect your Alby account</a>
 		</div>
 	)
 }

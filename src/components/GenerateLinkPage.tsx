@@ -32,7 +32,8 @@ const GenerateLinkPage = () => {
 	
 	return (
 		<div>
-			Use this link: {link}
+			<p>Add this link as a browser overlay:</p>
+			<a href={link} target="_blank">{link}</a>
 		</div>
 	)
 }

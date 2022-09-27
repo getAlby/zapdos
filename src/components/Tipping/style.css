@@ -1,0 +1,15 @@
+.tipping {
+    background: #FFF;
+    color: #000;
+    border-radius: 1em;
+    margin: 50px;
+    display: inline-block;
+    padding: 1em;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+.title {
+    margin-bottom: 0.5em;
+}
