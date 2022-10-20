@@ -1,5 +1,5 @@
-/* same as .generateLinkPage */
-.tipping {
+/* same as .tipping */
+.generateLinkPage {
   background: #fff;
   color: #000;
   border-radius: 1em;
@@ -11,6 +11,6 @@
   font-size: 1.25em;
 }
 
-.title {
-  margin-bottom: 0.5em;
+.generateLinkPage a {
+  color: #000;
 }
