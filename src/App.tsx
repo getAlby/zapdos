@@ -1,7 +1,7 @@
 import "./App.css";
 import MessageList from "./components/MessageList/MessageList";
 import Login from "./components/Login";
-import GenerateLinkPage from "./components/GenerateLinkPage";
+import GenerateLinkPage from "./components/GenerateLinkPage/GenerateLinkPage";
 import { Transfer } from "./components/helpers";
 import Tipping from "./components/Tipping/Tipping";
 

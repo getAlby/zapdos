@@ -1,6 +1,7 @@
+import "./style.css";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Config } from "./helpers";
+import { Config } from "../helpers";
 
 const GenerateLinkPage = () => {
   const [link, setLink] = useState("");
