@@ -56,7 +56,7 @@ const MessageList: React.FC<Props> = ({}) => {
   }, POLLING_INTERVAL);
 
   return (
-    <div className="messageList">
+    <div className="messageList marquee">
       <div className="messageListContent">
         {transfers &&
           transfers.slice(0, CELLS_MAX_COUNT).map((transaction: any) => {
