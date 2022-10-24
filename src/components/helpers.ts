@@ -7,7 +7,7 @@ export const Config = {
 	apiHost : "https://api.getalby.com",
 	clientId : "alby_internal_client",
     clientSecret: "zblqaACzgqUmHjLZdfXJ",
-	redirectUri : "http://localhost:8080",
+	redirectUri : "http://localhost:8080/login",
 	scope : "account:read%20invoices:read",
 	hostName:  "localhost:8080"
 }
@@ -25,12 +25,13 @@ export const Config = {
 
 //Transaction interface
 export interface Transfer {
-    id: number,
+    identifier: string,
     amount: number,
     payer_name: string,
     type: string,
     comment: string,
     settled_at: string,
+    hidden: boolean;
 }
 
 export type BuySellKey = 'buy' | 'sell'

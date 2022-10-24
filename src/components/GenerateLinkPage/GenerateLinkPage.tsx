@@ -15,7 +15,7 @@ const GenerateLinkPage = () => {
   data.append("client_secret", Config.clientSecret);
   data.append("grant_type", "authorization_code");
   data.append("redirect_uri", Config.redirectUri);
-  const code_verifier = window.sessionStorage.getItem("code_verifier");
+  const code_verifier = window.localStorage.getItem("code_verifier");
   data.append("code_verifier", code_verifier!);
   useEffect(() => {
     fetch(apiHost + "/oauth/token", { method: "post", body: data })

@@ -6,18 +6,12 @@ html,body {
   margin: 0;
   height: 100%;
   font-family: 'Roboto', sans-serif;
+  height: 100%;
+  color: #000;
+  background: #f3f4f6;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-body {
-  background:#333;
-  color: #FFF;
-}
-
-body > div {
-  padding: 1em;
 }
