@@ -23,7 +23,7 @@ const Login = () => {
           "&code_challenge_method=S256"
         }
       >
-        <span>Connect your Alby account</span>
+        <span className="text-3xl">Connect your Alby account</span>
       </a>
     </div>
   );
