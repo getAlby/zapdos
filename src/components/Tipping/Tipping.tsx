@@ -24,12 +24,12 @@ const Tipping: React.FC = () => {
 		}, []
 	);
 
-    return (
-        <div className="tipping">
-            <div className="title">Tip with Alby</div>
-            {lnurl && 
-            <QRCode value={'lightning:' + lnurl} size={200} />}
-        </div>
+    return (<>
+        {lnurl && <div className="tipping">
+            <QRCode value={'lightning:' + lnurl} size={200} />
+            <div className="title">⚡{lnurl}</div>
+        </div>}
+        </>
     );
 }
 

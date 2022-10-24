@@ -6,6 +6,8 @@ const Login = () => {
 
   return (
     <div>
+      <h2>🔥Zapdos</h2>
+      <p>Lightning-powered overlays for your video streams.</p>
       <a
         className="btn"
         href={
@@ -21,10 +23,6 @@ const Login = () => {
           "&code_challenge_method=S256"
         }
       >
-        <img
-          src="https://getalby.com/website/_assets/logo-WIC6GJUP.svg"
-          alt="Alby logo"
-        />{" "}
         <span>Connect your Alby account</span>
       </a>
     </div>
