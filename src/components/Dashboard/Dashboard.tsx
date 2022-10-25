@@ -62,6 +62,7 @@ const Dashboard: React.FC = () => {
     e.preventDefault();
 
     transaction.hidden = !transaction.hidden;
+    const endpoint = transaction.hidden? "/api/insert?" + transaction.identifier : "/api/delete?" + transaction.identifier
 
     let hiddenTransactions: string[] = [];
     fetch("/api/list", {
@@ -85,7 +86,13 @@ const Dashboard: React.FC = () => {
     }
 
     setHiddenTransactions(hiddenTransactions);
-    window.localStorage.setItem('hiddenTransactions', JSON.stringify(hiddenTransactions));
+    //window.localStorage.setItem('hiddenTransactions', JSON.stringify(hiddenTransactions));
+    fetch(endpoint, {
+      method: "post",
+      headers: {
+        Authorization: accessToken!
+      }
+    })
   }
 
   function isHidden(id: string) {
