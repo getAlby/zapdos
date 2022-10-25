@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -12,8 +13,14 @@ var supaClient *supa.Client
 
 func ListHandler(w http.ResponseWriter, r *http.Request) {
 	var result map[string]interface{}
-	supaClient.DB.From("zapdos").Select("*").Single().Execute(&result)
-	json.NewEncoder(w).Encode(result)
+	err := supaClient.DB.From("zapdos").Select("*").Single().Execute(&result)
+	if err != nil {
+		fmt.Printf("something went wrong: %s \n", err.Error())
+	}
+	err = json.NewEncoder(w).Encode(result)
+	if err != nil {
+		fmt.Printf("something went wrong: %s \n", err.Error())
+	}
 }
 
 func init() {
