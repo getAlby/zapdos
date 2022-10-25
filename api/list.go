@@ -12,8 +12,9 @@ import (
 var supaClient *supa.Client
 
 func ListHandler(w http.ResponseWriter, r *http.Request) {
+	user_token := r.Header.Get("Authorization")
 	var result []map[string]interface{}
-	err := supaClient.DB.From("zapdos").Select("*").Execute(&result)
+	err := supaClient.DB.From("zapdos").Select("*").Eq("user_id", user_token).Execute(&result)
 	if err != nil {
 		fmt.Printf("something went wrong: %s \n", err.Error())
 	}
