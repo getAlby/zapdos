@@ -3,11 +3,8 @@ import QRCode from "react-qr-code";
 import { useEffect, useState } from 'react';
 import { Config } from '../helpers';
 
-
 const API_URL = Config.apiHost
-const query = window.location.search;
-const params = new URLSearchParams(query);
-const accessToken = params.get("access_token")
+const accessToken = window.localStorage.getItem("access_token")
 
 const Tipping: React.FC = () => {
 
@@ -24,12 +21,12 @@ const Tipping: React.FC = () => {
 		}, []
 	);
 
-    return (
-        <div className="tipping">
-            <div className="title">Tip with Alby</div>
-            {lnurl && 
-            <QRCode value={'lightning:' + lnurl} size={200} />}
-        </div>
+    return (<>
+        {lnurl && <div className="tipping">
+            <QRCode value={'lightning:' + lnurl} size={200} />
+            <div className="mt-2">⚡{lnurl}</div>
+        </div>}
+        </>
     );
 }
 

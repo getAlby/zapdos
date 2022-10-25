@@ -2,12 +2,13 @@ import pkceChallenge from "pkce-challenge";
 import { Config } from "./helpers";
 const Login = () => {
   const challenge = pkceChallenge();
-  window.sessionStorage.setItem("code_verifier", challenge.code_verifier);
+  window.localStorage.setItem("code_verifier", challenge.code_verifier);
 
   return (
-    <div>
+    <div className="max-w-7xl container mx-auto my-5">
+      <p className="text-xl my-5">Lightning-powered overlays for your video streams.</p>
       <a
-        className="btn"
+        className="text-black hover:text-grey-500 px-3 py-2 rounded-md text-sm font-medium bg-amber-300 hover:bg-amber-200 text-lg"
         href={
           Config.appHost +
           "?client_id=" +
@@ -21,11 +22,7 @@ const Login = () => {
           "&code_challenge_method=S256"
         }
       >
-        <img
-          src="https://getalby.com/website/_assets/logo-WIC6GJUP.svg"
-          alt="Alby logo"
-        />{" "}
-        <span>Connect your Alby account</span>
+        🐝 Connect your Alby account
       </a>
     </div>
   );

@@ -1,8 +1,8 @@
 .messageList {
   position: absolute;
   bottom: 50px;
-  left: 50px;
-  right: 50px;
+  left: 0px;
+  right: 0px;
   height: 70px;
   overflow: hidden;
 }
