@@ -15,8 +15,8 @@ const tableName = "zapdos"
 
 func ListHandler(w http.ResponseWriter, r *http.Request) {
 	user_token := r.Header.Get("Authorization")
-	var result []map[string]interface{}
-	err := supaClient.DB.From(tableName).Select("*").Eq("user_id", user_token).Execute(&result)
+	var result []map[string]string
+	err := supaClient.DB.From(tableName).Select("payment_id").Eq("user_id", user_token).Execute(&result)
 	if err != nil {
 		fmt.Printf("something went wrong: %s \n", err.Error())
 	}
