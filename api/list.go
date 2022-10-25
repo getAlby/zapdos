@@ -13,7 +13,7 @@ var supaClient *supa.Client
 
 func ListHandler(w http.ResponseWriter, r *http.Request) {
 	var result map[string]interface{}
-	err := supaClient.DB.From("zapdos").Select("*").Single().Execute(&result)
+	err := supaClient.DB.From("zapdos").Select("*").Execute(&result)
 	if err != nil {
 		fmt.Printf("something went wrong: %s \n", err.Error())
 	}
