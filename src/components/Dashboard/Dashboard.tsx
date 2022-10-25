@@ -18,11 +18,23 @@ const Dashboard: React.FC = () => {
   const [transfers, setTransfers] = useState<any>([]);
   const [lastId, setLastId] = useState(startDate.toISOString());
 
-  let loadedHiddenTransactions = [];
-  var hiddenStorage = window.localStorage.getItem('hiddenTransactions');
-  if(hiddenStorage) {
-    loadedHiddenTransactions = JSON.parse(hiddenStorage);
-  }
+  let loadedHiddenTransactions: string[] = [];
+  fetch("/api/list", {
+    method: "get",
+    headers: {
+      Authorization: accessToken!
+    }
+  }).then(
+    (res) => res.json()
+  ).then(
+    (data) => {
+      loadedHiddenTransactions = data
+    }
+  )
+  //var hiddenStorage = window.localStorage.getItem('hiddenTransactions');
+  //if(hiddenStorage) {
+  //  loadedHiddenTransactions = JSON.parse(hiddenStorage);
+  //}
   const [hiddenTransactions, setHiddenTransactions] = useState(loadedHiddenTransactions);
 
   useEffect(() => {
@@ -62,7 +74,7 @@ const Dashboard: React.FC = () => {
     e.preventDefault();
 
     transaction.hidden = !transaction.hidden;
-    const endpoint = transaction.hidden? "/api/insert?" + transaction.identifier : "/api/delete?" + transaction.identifier
+    const endpoint = transaction.hidden? "/api/insert?payment_id=" + transaction.identifier : "/api/delete?payment_id=" + transaction.identifier
 
     let hiddenTransactions: string[] = [];
     fetch("/api/list", {

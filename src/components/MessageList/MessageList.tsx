@@ -13,20 +13,34 @@ interface Props {
 const CELLS_MAX_COUNT = 10;
 const API_URL = Config.apiHost;
 const query = window.location.search;
-const accessToken = window.localStorage.getItem("access_token");
+const params = new URLSearchParams(query);
+const accessToken = params.get("access_token");
 
 // Parameters for displaying
 const POLLING_INTERVAL = 3000;
 
 const hiddenTransactionFilter = function(transaction: any) {
-  var hidden = window.localStorage.getItem('hiddenTransactions');
-  if(hidden) {
-    var hiddenTransactions = JSON.parse(hidden);
-    if(hiddenTransactions.includes(transaction.identifier)) {
-      return false;
+  //var hidden = window.localStorage.getItem('hiddenTransactions');
+  //if(hidden) {
+  //  var hiddenTransactions = JSON.parse(hidden);
+  //  if(hiddenTransactions.includes(transaction.identifier)) {
+  //    return false;
+  //  }
+  //}
+  let hiddenTransactions: string[] = [];
+  fetch("/api/list", {
+    method: "get",
+    headers: {
+      Authorization: accessToken!
     }
-  }
-  return true;
+  }).then(
+    (res) => res.json()
+  ).then(
+    (data) => {
+      hiddenTransactions = data
+    }
+  )
+  return !hiddenTransactions.includes(transaction.identifier);
 }
 
 const MessageList: React.FC<Props> = ({}) => {
