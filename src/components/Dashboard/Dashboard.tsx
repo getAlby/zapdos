@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useInterval } from "../../helpers";
-import GenerateLinkPage from "../GenerateLinkPage/GenerateLinkPage";
 import { Config, Transfer, TYPE_TRANSFER } from "../helpers";
 
 const API_URL = Config.apiHost;
@@ -16,6 +15,7 @@ const Dashboard: React.FC = () => {
   startDate.setTime(startDate.getTime() - 100 * 60 * 60 * 1000);
 
   const [transfers, setTransfers] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [lastId, setLastId] = useState(startDate.toISOString());
 
   let loadedHiddenTransactions = [];
@@ -30,6 +30,8 @@ const Dashboard: React.FC = () => {
   });
 
   useInterval(() => {
+    setLoading(true);
+
     fetch(API_URL + "/invoices/incoming", {
       method: "get",
       headers: { Authorization: accessToken! },
@@ -43,7 +45,7 @@ const Dashboard: React.FC = () => {
             type: TYPE_TRANSFER,
             hidden: isHidden(transaction.identifier),
             payer_name:
-              transaction.payer_name == null
+              transaction.payer_name === null
                 ? "anonymous"
                 : transaction.payer_name,
           }))
@@ -54,6 +56,8 @@ const Dashboard: React.FC = () => {
           ]);
           setLastId(newUserTransactions[0].settled_at);
         }
+
+        setLoading(false);
       })
       .catch((e) => console.log(e));
   }, POLLING_INTERVAL);
@@ -86,7 +90,6 @@ const Dashboard: React.FC = () => {
     return hiddenTransactions.includes(id);
   }
 
-  console.log(hiddenTransactions);
   return (
     <div className="container mx-auto">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -99,8 +102,9 @@ const Dashboard: React.FC = () => {
         <div className="w-50 bg-white shadow rounded-lg p-4 sm:p-6 h-full">
           <div className="flow-root">
             <ul role="list" className="divide-y divide-gray-200">
-              {transfers.length == 0 && <li className="py-3 sm:py-4">No transactions found.</li>}
-              {transfers.map((transfer: any) => {
+              {transfers.length === 0 && loading && <li key="loading" className="py-3 sm:py-4">Loading...</li>}
+              {!loading && transfers.length === 0 && <li className="py-3 sm:py-4">No transactions found.</li>}
+              {transfers.length > 0 && transfers.map((transfer: any) => {
                 return (
                   <li key={transfer.identifier} className="py-3 sm:py-4">
                     <div className="flex items-center space-x-4">
@@ -135,7 +139,6 @@ const Dashboard: React.FC = () => {
                   </li>
                 )
               })}
-
             </ul>
           </div>
         </div>

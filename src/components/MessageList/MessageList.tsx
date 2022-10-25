@@ -18,17 +18,6 @@ const accessToken = window.localStorage.getItem("access_token");
 // Parameters for displaying
 const POLLING_INTERVAL = 3000;
 
-const hiddenTransactionFilter = function(transaction: any) {
-  var hidden = window.localStorage.getItem('hiddenTransactions');
-  if(hidden) {
-    var hiddenTransactions = JSON.parse(hidden);
-    if(hiddenTransactions.includes(transaction.identifier)) {
-      return false;
-    }
-  }
-  return true;
-}
-
 const MessageList: React.FC<Props> = ({}) => {
   const [transfers, setTransfers] = useState<any>([]);
   const [lastId, setLastId] = useState(new Date().toISOString());

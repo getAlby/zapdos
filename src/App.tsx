@@ -1,10 +1,8 @@
 import "./App.css";
 import MessageList from "./components/MessageList/MessageList";
 import Login from "./components/Login";
-import GenerateLinkPage from "./components/GenerateLinkPage/GenerateLinkPage";
 import Tipping from "./components/Tipping/Tipping";
 import { Config } from "./components/helpers";
-import { useEffect } from "react";
 import Dashboard from "./components/Dashboard/Dashboard";
 
 const exchangeCode = function(code: string) {    
@@ -38,9 +36,9 @@ const App = () => {
 
   return (
     <div className="App">
-      {page != '/overlay' && 
+      {page !== '/overlay' && 
       <nav className="bg-gray-800">
-        <div className="mx-auto px-8 max-w-7xl">
+        <div className="mx-auto sm:px-6 lg:px-8 max-w-7xl">
           <div className="relative flex h-16 items-center justify-between">
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
@@ -51,13 +49,12 @@ const App = () => {
         </div>
       </nav>
       }
-
-      {code == null && page == "/" && <Login></Login>}
-      {page == "/login" && code && exchangeCode(code)}
-      {page == '/dashboard' && 
+      {code === null && page === "/" && <Login></Login>}
+      {page === "/login" && code && exchangeCode(code)}
+      {page === '/dashboard' && 
         <Dashboard></Dashboard>
       }
-      {page == '/overlay' && (
+      {page === '/overlay' && (
         <div>
           <Tipping />
           <MessageList title={""} transfers={[]}></MessageList>
