@@ -20,7 +20,11 @@ func ListHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Printf("something went wrong: %s \n", err.Error())
 	}
-	err = json.NewEncoder(w).Encode(result)
+	payload := []string{}
+	for _, item := range result {
+		payload = append(payload, item["payment_id"])
+	}
+	err = json.NewEncoder(w).Encode(payload)
 	if err != nil {
 		fmt.Printf("something went wrong: %s \n", err.Error())
 	}
