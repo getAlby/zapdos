@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
   const [lastId, setLastId] = useState(startDate.toISOString());
 
   let loadedHiddenTransactions: string[] = [];
-  fetch("/api/list", {
+  fetch("https://zapdos-albylabs.vercel.app/api/list", {
     method: "get",
     headers: {
       Authorization: accessToken!
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
     const endpoint = transaction.hidden? "/api/insert?payment_id=" + transaction.identifier : "/api/delete?payment_id=" + transaction.identifier
 
     let hiddenTransactions: string[] = [];
-    fetch("/api/list", {
+    fetch("https://zapdos-albylabs.vercel.app/api/list", {
       method: "get",
       headers: {
         Authorization: accessToken!
@@ -99,7 +99,7 @@ const Dashboard: React.FC = () => {
 
     setHiddenTransactions(hiddenTransactions);
     //window.localStorage.setItem('hiddenTransactions', JSON.stringify(hiddenTransactions));
-    fetch(endpoint, {
+    fetch("https://zapdos-albylabs.vercel.app" + endpoint, {
       method: "post",
       headers: {
         Authorization: accessToken!

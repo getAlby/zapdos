@@ -28,7 +28,7 @@ const hiddenTransactionFilter = function(transaction: any) {
   //  }
   //}
   let hiddenTransactions: string[] = [];
-  fetch("/api/list", {
+  fetch("https://zapdos-albylabs.vercel.app/api/list", {
     method: "get",
     headers: {
       Authorization: accessToken!
