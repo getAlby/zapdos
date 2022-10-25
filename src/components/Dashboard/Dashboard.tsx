@@ -63,11 +63,23 @@ const Dashboard: React.FC = () => {
 
     transaction.hidden = !transaction.hidden;
 
-    let hiddenTransactions = [];
-    var hiddenStorage = window.localStorage.getItem('hiddenTransactions');
-    if(hiddenStorage) {
-      hiddenTransactions = JSON.parse(hiddenStorage);
-    }
+    let hiddenTransactions: string[] = [];
+    fetch("/api/list", {
+      method: "get",
+      headers: {
+        Authorization: accessToken!
+      }
+    }).then(
+      (res) => res.json()
+    ).then(
+      (data) => {
+        hiddenTransactions = data
+      }
+    )
+    //var hiddenStorage = window.localStorage.getItem('hiddenTransactions');
+    //if(hiddenStorage) {
+    //  hiddenTransactions = JSON.parse(hiddenStorage);
+    //}
     if(!hiddenTransactions.includes(transaction.identifier)) {
       hiddenTransactions.push(transaction.identifier);
     }
