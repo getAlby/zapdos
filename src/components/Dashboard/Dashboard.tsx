@@ -4,6 +4,7 @@ import GenerateLinkPage from "../GenerateLinkPage/GenerateLinkPage";
 import { Config, Transfer, TYPE_TRANSFER } from "../helpers";
 
 const API_URL = Config.apiHost;
+const SECONDARY_API_URL = Config.secondaryApiHost;
 const accessToken = window.localStorage.getItem("access_token");
 
 // Parameters for displaying
@@ -19,7 +20,7 @@ const Dashboard: React.FC = () => {
   const [lastId, setLastId] = useState(startDate.toISOString());
 
   let loadedHiddenTransactions: string[] = [];
-  fetch("/api/list", {
+  fetch(SECONDARY_API_URL + "/api/list", {
     method: "get",
     headers: {
       Authorization: accessToken!
@@ -77,7 +78,7 @@ const Dashboard: React.FC = () => {
     const endpoint = transaction.hidden? "/api/insert?payment_id=" + transaction.identifier : "/api/delete?payment_id=" + transaction.identifier
 
     let hiddenTransactions: string[] = [];
-    fetch("/api/list", {
+    fetch( SECONDARY_API_URL + "/api/list", {
       method: "get",
       headers: {
         Authorization: accessToken!
@@ -99,7 +100,7 @@ const Dashboard: React.FC = () => {
 
     setHiddenTransactions(hiddenTransactions);
     //window.localStorage.setItem('hiddenTransactions', JSON.stringify(hiddenTransactions));
-    fetch(endpoint, {
+    fetch(SECONDARY_API_URL + endpoint, {
       method: "post",
       headers: {
         Authorization: accessToken!

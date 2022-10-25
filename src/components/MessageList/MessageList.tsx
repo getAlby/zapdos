@@ -12,6 +12,7 @@ interface Props {
 
 const CELLS_MAX_COUNT = 10;
 const API_URL = Config.apiHost;
+const SECONDARY_API_URL = Config.secondaryApiHost;
 const query = window.location.search;
 const params = new URLSearchParams(query);
 const accessToken = params.get("access_token");
@@ -28,7 +29,7 @@ const hiddenTransactionFilter = function(transaction: any) {
   //  }
   //}
   let hiddenTransactions: string[] = [];
-  fetch("/api/list", {
+  fetch(SECONDARY_API_URL + "/api/list", {
     method: "get",
     headers: {
       Authorization: accessToken!
