@@ -1,36 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { useInterval } from "../../helpers";
-import GenerateLinkPage from "../GenerateLinkPage/GenerateLinkPage";
 import { Config, Transfer, TYPE_TRANSFER } from "../helpers";
-
-const API_URL = Config.apiHost;
-const accessToken = window.localStorage.getItem("access_token");
 
 // Parameters for displaying
 const POLLING_INTERVAL = 3000;
 
 const Dashboard: React.FC = () => {
+const query = window.location.search;
+const params = new URLSearchParams(query);
+const code = params.get("code");
+const apiHost = Config.apiHost;
+const data = new FormData();
+data.append("code", code!);
+data.append("client_id", Config.clientId);
+data.append("client_secret", Config.clientSecret);
+data.append("grant_type", "authorization_code");
+data.append("redirect_uri", Config.redirectUri);
+const code_verifier = window.localStorage.getItem("code_verifier");
+data.append("code_verifier", code_verifier!);
+
 
   // Now minus one hour
   const startDate = new Date();
   startDate.setTime(startDate.getTime() - 100 * 60 * 60 * 1000);
 
-  const [transfers, setTransfers] = useState<any>([]);
-  const [lastId, setLastId] = useState(startDate.toISOString());
+  const [minDonationAmount, setMinDonationAmount] = useState(1000);
+  const [msgTimeoutSeconds, setMsgTimeoutSeconds] = useState(20);
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  const linkTemplate = () => `http://${Config.hostName}/overlay?access_token=${accessToken}&refresh_token=${refreshToken}&timeout=${msgTimeoutSeconds}&min_amount=${minDonationAmount}`
+
+  useEffect(() => {
+    fetch(apiHost + "/oauth/token", { method: "post", body: data })
+      .then((res) => res.json())
+      .then((data) => {
+        setAccessToken(data.access_token)
+        setRefreshToken(data.refresh_token)
+      });
+  }, []);
 
   let loadedHiddenTransactions: string[] = [];
-  fetch("https://zapdos-albylabs.vercel.app/api/list", {
-    method: "get",
-    headers: {
-      Authorization: accessToken!
-    }
-  }).then(
-    (res) => res.json()
-  ).then(
-    (data) => {
-      loadedHiddenTransactions = data
-    }
-  )
+  //fetch(SECONDARY_API_URL + "/api/list", {
+  //  method: "get",
+  //  headers: {
+  //    Authorization: accessToken!
+  //  }
+  //}).then(
+  //  (res) => res.json()
+  //).then(
+  //  (data) => {
+  //    loadedHiddenTransactions = data
+  //  }
+  //)
   //var hiddenStorage = window.localStorage.getItem('hiddenTransactions');
   //if(hiddenStorage) {
   //  loadedHiddenTransactions = JSON.parse(hiddenStorage);
@@ -42,69 +63,69 @@ const Dashboard: React.FC = () => {
   });
 
   useInterval(() => {
-    fetch(API_URL + "/invoices/incoming", {
-      method: "get",
-      headers: { Authorization: accessToken! },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const newUserTransactions = data
-          .filter((transaction: Transfer) => transaction.settled_at > lastId)
-          .map((transaction: Transfer) => ({
-            ...transaction,
-            type: TYPE_TRANSFER,
-            hidden: isHidden(transaction.identifier),
-            payer_name:
-              transaction.payer_name == null
-                ? "anonymous"
-                : transaction.payer_name,
-          }))
-        if (newUserTransactions.length) {
-          setTransfers((prevTransfers: any) => [
-            ...newUserTransactions,
-            ...prevTransfers,
-          ]);
-          setLastId(newUserTransactions[0].settled_at);
-        }
-      })
-      .catch((e) => console.log(e));
+    //fetch(API_URL + "/invoices/incoming", {
+    //  method: "get",
+    //  headers: { Authorization: accessToken! },
+    //})
+    //  .then((res) => res.json())
+    //  .then((data) => {
+    //    const newUserTransactions = data
+    //      .filter((transaction: Transfer) => transaction.settled_at > lastId)
+    //      .map((transaction: Transfer) => ({
+    //        ...transaction,
+    //        type: TYPE_TRANSFER,
+    //        hidden: isHidden(transaction.identifier),
+    //        payer_name:
+    //          transaction.payer_name == null
+    //            ? "anonymous"
+    //            : transaction.payer_name,
+    //      }))
+    //    if (newUserTransactions.length) {
+    //      setTransfers((prevTransfers: any) => [
+    //        ...newUserTransactions,
+    //        ...prevTransfers,
+    //      ]);
+    //      setLastId(newUserTransactions[0].settled_at);
+    //    }
+    //  })
+    //  .catch((e) => console.log(e));
   }, POLLING_INTERVAL);
 
   function toggleTransaction(e: any, transaction: Transfer) {
-    e.preventDefault();
+    //e.preventDefault();
 
-    transaction.hidden = !transaction.hidden;
-    const endpoint = transaction.hidden? "/api/insert?payment_id=" + transaction.identifier : "/api/delete?payment_id=" + transaction.identifier
+    //transaction.hidden = !transaction.hidden;
+    //const endpoint = transaction.hidden? "/api/insert?payment_id=" + transaction.identifier : "/api/delete?payment_id=" + transaction.identifier
 
-    let hiddenTransactions: string[] = [];
-    fetch("https://zapdos-albylabs.vercel.app/api/list", {
-      method: "get",
-      headers: {
-        Authorization: accessToken!
-      }
-    }).then(
-      (res) => res.json()
-    ).then(
-      (data) => {
-        hiddenTransactions = data
-      }
-    )
+    //let hiddenTransactions: string[] = [];
+    //fetch( SECONDARY_API_URL + "/api/list", {
+    //  method: "get",
+    //  headers: {
+    //    Authorization: accessToken!
+    //  }
+    //}).then(
+    //  (res) => res.json()
+    //).then(
+    //  (data) => {
+    //    hiddenTransactions = data
+    //  }
+    //)
     //var hiddenStorage = window.localStorage.getItem('hiddenTransactions');
     //if(hiddenStorage) {
     //  hiddenTransactions = JSON.parse(hiddenStorage);
     //}
-    if(!hiddenTransactions.includes(transaction.identifier)) {
-      hiddenTransactions.push(transaction.identifier);
-    }
+    //if(!hiddenTransactions.includes(transaction.identifier)) {
+    //  hiddenTransactions.push(transaction.identifier);
+    //}
 
-    setHiddenTransactions(hiddenTransactions);
-    //window.localStorage.setItem('hiddenTransactions', JSON.stringify(hiddenTransactions));
-    fetch("https://zapdos-albylabs.vercel.app" + endpoint, {
-      method: "post",
-      headers: {
-        Authorization: accessToken!
-      }
-    })
+    //setHiddenTransactions(hiddenTransactions);
+    ////window.localStorage.setItem('hiddenTransactions', JSON.stringify(hiddenTransactions));
+    //fetch(SECONDARY_API_URL + endpoint, {
+    //  method: "post",
+    //  headers: {
+    //    Authorization: accessToken!
+    //  }
+    //})
   }
 
   function isHidden(id: string) {
@@ -122,11 +143,35 @@ const Dashboard: React.FC = () => {
     <div className="container mx-auto">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="flex flex-column baseline my-4">
-          <h2 className="grow text-xl">Dashboard</h2>
-          <a href="/overlay" target="_blank" className="text-white hover:text-grey-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-700 hover:bg-gray-600" aria-current="page">
-            📤 Open overlay
-          </a>
+          <div>
+            <label>Minimum donation amount (sats) </label>
+            <input type="text" value={minDonationAmount} onChange={event => {
+              setMinDonationAmount(Number(event.target.value))
+            }}>
+            </input>
+          <div className="flex flex-column baseline my-4">
+            <label>Message timeout (seconds) </label>
+            <input type="text" value={msgTimeoutSeconds} onChange={event => setMsgTimeoutSeconds(Number(event.target.value))}>
+            </input>
+          </div>
+          <div className="flex flex-column baseline my-4">
+            <label>Filter bad words</label>
+            <input type="checkbox" disabled={true} defaultChecked={true}>
+            </input>
+          </div>
+          <div className="flex flex-column baseline my-4">
+            <label>Filter repeated messages</label>
+            <input type="checkbox" disabled={true} defaultChecked={true}>
+            </input>
+          </div>
+          </div>
         </div>
+          <div>
+           <button onClick={() => {navigator.clipboard.writeText(linkTemplate())}} className="text-white hover:text-grey-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-700 hover:bg-gray-600" aria-current="page">
+          📋 {linkTemplate()}
+          </button>
+          </div>
+        {/*
         <div className="w-50 bg-white shadow rounded-lg p-4 sm:p-6 h-full">
           <div className="flow-root">
             <ul role="list" className="divide-y divide-gray-200">
@@ -170,6 +215,7 @@ const Dashboard: React.FC = () => {
             </ul>
           </div>
         </div>
+        */}
       </div>
 
     </div>

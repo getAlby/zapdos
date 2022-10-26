@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react';
 import { Config } from '../helpers';
 
 const API_URL = Config.apiHost
-const accessToken = window.localStorage.getItem("access_token")
+const query = window.location.search;
+const params = new URLSearchParams(query);
+const accessToken = params.get("access_token");
+const minDonationAmount = params.get("min_amount")
 
 const Tipping: React.FC = () => {
 
@@ -23,8 +26,9 @@ const Tipping: React.FC = () => {
 
     return (<>
         {lnurl && <div className="tipping">
-            <QRCode value={'lightning:' + lnurl} size={200} />
             <div className="mt-2">⚡{lnurl}</div>
+            <QRCode value={'lightning:' + lnurl} size={200} />
+            <div className="mt-2">Minimum tip amount: {minDonationAmount} sats</div>
         </div>}
         </>
     );

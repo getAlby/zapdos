@@ -7,17 +7,19 @@ import { Config } from "../helpers";
 
 interface Props {
   title: string;
-  transfers: Transfer[] | BuySellTransaction[];
+  lastTransfer?: Transfer;
 }
 
 const CELLS_MAX_COUNT = 10;
 const API_URL = Config.apiHost;
+const SECONDARY_API_URL = Config.secondaryApiHost;
 const query = window.location.search;
 const params = new URLSearchParams(query);
 const accessToken = params.get("access_token");
 
 // Parameters for displaying
-const POLLING_INTERVAL = 3000;
+const POLLING_INTERVAL = 3000
+const SHOW_INTERVAL = Number(params.get("timeout")) * 1000  || 20000;
 
 const hiddenTransactionFilter = function(transaction: any) {
   //var hidden = window.localStorage.getItem('hiddenTransactions');
@@ -28,7 +30,7 @@ const hiddenTransactionFilter = function(transaction: any) {
   //  }
   //}
   let hiddenTransactions: string[] = [];
-  fetch("https://zapdos-albylabs.vercel.app/api/list", {
+  fetch(SECONDARY_API_URL + "/api/list", {
     method: "get",
     headers: {
       Authorization: accessToken!
@@ -44,10 +46,20 @@ const hiddenTransactionFilter = function(transaction: any) {
 }
 
 const MessageList: React.FC<Props> = ({}) => {
-  const [transfers, setTransfers] = useState<any>([]);
-  const [lastId, setLastId] = useState(new Date().toISOString());
+  const [lastTransfer, setLastTransfer] = useState<Transfer>({
+    identifier: "",
+    amount: 0,
+    payer_name: "",
+    type: "",
+    comment: "",
+    settled_at: "",
+    hidden: false
+  });
+  const [showMessage, setShowMessage] = useState<boolean>(false);
+  //const [lastId, setLastId] = useState(new Date().toISOString());
 
   useInterval(() => {
+    console.log("hello")
     fetch(API_URL + "/invoices/incoming", {
       method: "get",
       headers: { Authorization: accessToken! },
@@ -63,27 +75,21 @@ const MessageList: React.FC<Props> = ({}) => {
                 ? "anonymous"
                 : transaction.payer_name,
           }));
-
-        if (newUserTransactions.length) { 
-          setTransfers((prevTransfers: any) => [
-            ...newUserTransactions,
-            ...prevTransfers,
-          ]);
-          setLastId(newUserTransactions[0].settled_at);
+        if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment){ 
+          console.log(newUserTransactions[0].comment)
+          setLastTransfer(newUserTransactions[0])
+          setShowMessage(true)
+          setTimeout(() => {
+            setShowMessage(false) 
+          }, SHOW_INTERVAL);
         }
       })
       .catch((e) => console.log(e));
   }, POLLING_INTERVAL);
 
   return (
-    <div className="messageList marquee">
-      <div className="messageListContent">
-        {transfers &&
-          transfers.slice(0, CELLS_MAX_COUNT).map((transaction: any) => {
-            if(transfers.hidden)
-            return <ListMessage transaction={transaction} />;
-          })}
-      </div>
+    <div>
+    {showMessage && <ListMessage transaction={lastTransfer!}></ListMessage>}
     </div>
   );
 };

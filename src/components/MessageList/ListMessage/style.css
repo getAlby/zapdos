@@ -1,8 +1,7 @@
 .message {
     float: left;
-    margin-right: 3em;
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin: 50px;
+    text-align: center;
 }
 
 .name {
