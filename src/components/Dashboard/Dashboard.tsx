@@ -6,7 +6,6 @@ import { Config, Transfer, TYPE_TRANSFER } from "../helpers";
 const POLLING_INTERVAL = 3000;
 
 const Dashboard: React.FC = () => {
-const [link, setLink] = useState("");
 const query = window.location.search;
 const params = new URLSearchParams(query);
 const code = params.get("code");
@@ -19,24 +18,26 @@ data.append("grant_type", "authorization_code");
 data.append("redirect_uri", Config.redirectUri);
 const code_verifier = window.localStorage.getItem("code_verifier");
 data.append("code_verifier", code_verifier!);
-useEffect(() => {
-  fetch(apiHost + "/oauth/token", { method: "post", body: data })
-    .then((res) => res.json())
-    .then((data) => {
-      setLink(
-        `http://${Config.hostName}/overlay?access_token=${data.access_token}&refresh_token=${data.refresh_token}`
-      );
-    });
-}, []);
+
 
   // Now minus one hour
   const startDate = new Date();
   startDate.setTime(startDate.getTime() - 100 * 60 * 60 * 1000);
 
-  const [transfers, setTransfers] = useState<any>([]);
-  const [lastId, setLastId] = useState(startDate.toISOString());
   const [minDonationAmount, setMinDonationAmount] = useState(1000);
   const [msgTimeoutSeconds, setMsgTimeoutSeconds] = useState(20);
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  const linkTemplate = () => `http://${Config.hostName}/overlay?access_token=${accessToken}&refresh_token=${refreshToken}&timeout=${msgTimeoutSeconds}&min_amount=${minDonationAmount}`
+
+  useEffect(() => {
+    fetch(apiHost + "/oauth/token", { method: "post", body: data })
+      .then((res) => res.json())
+      .then((data) => {
+        setAccessToken(data.access_token)
+        setRefreshToken(data.refresh_token)
+      });
+  }, []);
 
   let loadedHiddenTransactions: string[] = [];
   //fetch(SECONDARY_API_URL + "/api/list", {
@@ -144,11 +145,13 @@ useEffect(() => {
         <div className="flex flex-column baseline my-4">
           <div>
             <label>Minimum donation amount (sats) </label>
-            <input type="number" value={minDonationAmount}>
+            <input type="text" value={minDonationAmount} onChange={event => {
+              setMinDonationAmount(Number(event.target.value))
+            }}>
             </input>
           <div className="flex flex-column baseline my-4">
             <label>Message timeout (seconds) </label>
-            <input type="number" value={msgTimeoutSeconds}>
+            <input type="text" value={msgTimeoutSeconds} onChange={event => setMsgTimeoutSeconds(Number(event.target.value))}>
             </input>
           </div>
           <div className="flex flex-column baseline my-4">
@@ -164,8 +167,8 @@ useEffect(() => {
           </div>
         </div>
           <div>
-           <button onClick={() => {navigator.clipboard.writeText(link)}} className="text-white hover:text-grey-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-700 hover:bg-gray-600" aria-current="page">
-          📋 {link}
+           <button onClick={() => {navigator.clipboard.writeText(linkTemplate())}} className="text-white hover:text-grey-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-700 hover:bg-gray-600" aria-current="page">
+          📋 {linkTemplate()}
           </button>
           </div>
         {/*
