@@ -16,6 +16,7 @@ const SECONDARY_API_URL = Config.secondaryApiHost;
 const query = window.location.search;
 const params = new URLSearchParams(query);
 const accessToken = params.get("access_token");
+const minDonationAmount = Number(params.get("min_amount")) || 0;
 
 // Parameters for displaying
 const POLLING_INTERVAL = 3000
@@ -75,7 +76,7 @@ const MessageList: React.FC<Props> = ({}) => {
                 ? "anonymous"
                 : transaction.payer_name,
           }));
-        if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment){ 
+        if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment && newUserTransactions[0].amount > minDonationAmount){ 
           console.log(newUserTransactions[0].comment)
           setLastTransfer(newUserTransactions[0])
           setShowMessage(true)
