@@ -7,7 +7,7 @@ import { Config } from "../helpers";
 
 interface Props {
   title: string;
-  transfers: Transfer[] | BuySellTransaction[];
+  lastTransfer?: Transfer;
 }
 
 const CELLS_MAX_COUNT = 10;
@@ -18,7 +18,7 @@ const params = new URLSearchParams(query);
 const accessToken = params.get("access_token");
 
 // Parameters for displaying
-const POLLING_INTERVAL = 3000;
+const POLLING_INTERVAL = Number(params.get("timeout")) || 20000;
 
 const hiddenTransactionFilter = function(transaction: any) {
   //var hidden = window.localStorage.getItem('hiddenTransactions');
@@ -45,8 +45,9 @@ const hiddenTransactionFilter = function(transaction: any) {
 }
 
 const MessageList: React.FC<Props> = ({}) => {
-  const [transfers, setTransfers] = useState<any>([]);
-  const [lastId, setLastId] = useState(new Date().toISOString());
+  const [lastTransfer, setLastTransfer] = useState<Transfer>();
+  const [showMessage, setShowMessage] = useState<boolean>(false);
+  //const [lastId, setLastId] = useState(new Date().toISOString());
 
   useInterval(() => {
     fetch(API_URL + "/invoices/incoming", {
@@ -64,27 +65,18 @@ const MessageList: React.FC<Props> = ({}) => {
                 ? "anonymous"
                 : transaction.payer_name,
           }));
-
-        if (newUserTransactions.length) { 
-          setTransfers((prevTransfers: any) => [
-            ...newUserTransactions,
-            ...prevTransfers,
-          ]);
-          setLastId(newUserTransactions[0].settled_at);
+        setShowMessage(false)
+        if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment){ 
+          setLastTransfer(newUserTransactions[0])
+          setShowMessage(true)
         }
       })
       .catch((e) => console.log(e));
   }, POLLING_INTERVAL);
 
   return (
-    <div className="messageList marquee">
-      <div className="messageListContent">
-        {transfers &&
-          transfers.slice(0, CELLS_MAX_COUNT).map((transaction: any) => {
-            if(transfers.hidden)
-            return <ListMessage transaction={transaction} />;
-          })}
-      </div>
+    <div>
+    {showMessage && <ListMessage transaction={lastTransfer!}></ListMessage>}
     </div>
   );
 };
