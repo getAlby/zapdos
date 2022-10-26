@@ -18,7 +18,8 @@ const params = new URLSearchParams(query);
 const accessToken = params.get("access_token");
 
 // Parameters for displaying
-const POLLING_INTERVAL = Number(params.get("timeout")) || 20000;
+const POLLING_INTERVAL = 3000
+const SHOW_INTERVAL = Number(params.get("timeout")) * 1000  || 20000;
 
 const hiddenTransactionFilter = function(transaction: any) {
   //var hidden = window.localStorage.getItem('hiddenTransactions');
@@ -45,11 +46,20 @@ const hiddenTransactionFilter = function(transaction: any) {
 }
 
 const MessageList: React.FC<Props> = ({}) => {
-  const [lastTransfer, setLastTransfer] = useState<Transfer>();
+  const [lastTransfer, setLastTransfer] = useState<Transfer>({
+    identifier: "",
+    amount: 0,
+    payer_name: "",
+    type: "",
+    comment: "",
+    settled_at: "",
+    hidden: false
+  });
   const [showMessage, setShowMessage] = useState<boolean>(false);
   //const [lastId, setLastId] = useState(new Date().toISOString());
 
   useInterval(() => {
+    console.log("hello")
     fetch(API_URL + "/invoices/incoming", {
       method: "get",
       headers: { Authorization: accessToken! },
@@ -65,10 +75,13 @@ const MessageList: React.FC<Props> = ({}) => {
                 ? "anonymous"
                 : transaction.payer_name,
           }));
-        setShowMessage(false)
         if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment){ 
+          console.log(newUserTransactions[0].comment)
           setLastTransfer(newUserTransactions[0])
           setShowMessage(true)
+          setTimeout(() => {
+            setShowMessage(false) 
+          }, SHOW_INTERVAL);
         }
       })
       .catch((e) => console.log(e));

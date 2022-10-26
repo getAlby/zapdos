@@ -1,6 +1,8 @@
 import React from "react";
 import {Transfer} from "../../helpers";
 import './style.css';
+import Filter from 'bad-words';
+const filter = new Filter();
 
 interface Props {
     transaction: Transfer ;
@@ -15,7 +17,7 @@ const ListMessage: React.FC<Props> = ({ transaction }) => {
             </div>
             <div>
             {transaction.comment != null && 
-                <span className="comment"> {transaction.comment}</span>}
+                <span className="comment"> {filter.clean(transaction.comment)}</span>}
             </div>
         </div>
         </div>
