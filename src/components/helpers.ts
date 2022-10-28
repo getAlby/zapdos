@@ -5,14 +5,24 @@ export const TYPE_BUYSELL = "buysell";
 export const Config = {
 	appHost : "https://getalby.com/oauth",
 	apiHost : "https://api.getalby.com",
-	secondaryApiHost : "https://zapdos-albylabs.vercel.app",
-	clientId : "alby_internal_client",
-    clientSecret: "zblqaACzgqUmHjLZdfXJ",
-	redirectUri : "http://localhost:8080/dashboard",
+	clientId : "qlO4P09vbP",
+    clientSecret: "",
+	redirectUri : "https://zapdos.albylabs.com/dashboard",
 	scope : "account:read%20invoices:read",
-	hostName:  "localhost:8080"
+	hostName:  "zapdos.albylabs.com"
 }
 
+// testing in production with test client
+// export const Config = {
+// 	appHost : "https://getalby.com/oauth",
+// 	apiHost : "https://api.getalby.com",
+// 	secondaryApiHost : "https://zapdos-albylabs.vercel.app",
+// 	clientId : "alby_internal_client",
+//     clientSecret: "zblqaACzgqUmHjLZdfXJ",
+// 	redirectUri : "http://localhost:8080/dashboard",
+// 	scope : "account:read%20invoices:read",
+// 	hostName:  "localhost:8080"
+// }
 // //Uncomment for testnet
 // export const Config = {
 // 	appHost : "https://app.regtest.getalby.com/oauth",
