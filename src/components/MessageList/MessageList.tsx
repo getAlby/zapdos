@@ -63,7 +63,7 @@ const MessageList: React.FC<Props> = ({}) => {
                 ? "anonymous"
                 : transaction.payer_name,
           }));
-        if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment && newUserTransactions[0].amount > minDonationAmount){ 
+        if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment && newUserTransactions[0].amount >= minDonationAmount){ 
           console.log(newUserTransactions[0].comment)
           setLastTransfer(newUserTransactions[0])
           setShowMessage(true)
