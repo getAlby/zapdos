@@ -6,23 +6,25 @@ const filter = new Filter();
 
 interface Props {
   transaction: Transfer;
-  showMessage: boolean;
+  showMessage?: boolean;
 }
 
 const ListMessage: React.FC<Props> = ({ transaction, showMessage }) => {
   return (
-    <div className={"message" + (showMessage ? "" : "hide")}>
+    <div className={"message " + (showMessage ? "" : "hide")}>
       <div className="name">
         <div>
           {transaction.payer_name} paid {transaction.amount} sats
         </div>
         <div>
-          {transaction.comment != null && (
-            <span className="comment">
-              {" "}
-              {filter.clean(transaction.comment)}
-            </span>
-          )}
+          {transaction &&
+            transaction.comment !== null &&
+            transaction.comment !== "" && (
+              <span className="comment">
+                {" "}
+                {filter.clean(transaction.comment)}
+              </span>
+            )}
         </div>
       </div>
     </div>
