@@ -27,7 +27,7 @@ const Tipping: React.FC = () => {
     <>
       {lnurl && (
         <div className="tipping">
-          <div className="mt-2">⚡{lnurl}</div>
+          <div className="mb-2">⚡{lnurl}</div>
           <QRCode value={"lightning:" + lnurl} size={200} />
           <div className="mt-2">
             Minimum tip amount: <br />
