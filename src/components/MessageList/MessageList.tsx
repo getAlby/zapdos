@@ -80,7 +80,10 @@ const MessageList: React.FC<Props> = ({}) => {
 
   return (
     <div>
-      {showMessage && <ListMessage transaction={lastTransfer!}></ListMessage>}
+      <ListMessage
+        showMessage={showMessage}
+        transaction={lastTransfer!}
+      ></ListMessage>
     </div>
   );
 };
