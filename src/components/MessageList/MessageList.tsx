@@ -18,10 +18,10 @@ const accessToken = params.get("access_token");
 const minDonationAmount = Number(params.get("min_amount")) || 0;
 
 // Parameters for displaying
-const POLLING_INTERVAL = 3000
-const SHOW_INTERVAL = Number(params.get("timeout")) * 1000  || 20000;
+const POLLING_INTERVAL = 3000;
+const SHOW_INTERVAL = Number(params.get("timeout")) * 1000 || 20000;
 
-const hiddenTransactionFilter = function(transaction: any) {
+const hiddenTransactionFilter = function (transaction: any) {
   //var hidden = window.localStorage.getItem('hiddenTransactions');
   //if(hidden) {
   //  var hiddenTransactions = JSON.parse(hidden);
@@ -31,7 +31,7 @@ const hiddenTransactionFilter = function(transaction: any) {
   //}
   let hiddenTransactions: string[] = [];
   return !hiddenTransactions.includes(transaction.identifier);
-}
+};
 
 const MessageList: React.FC<Props> = ({}) => {
   const [lastTransfer, setLastTransfer] = useState<Transfer>({
@@ -41,34 +41,37 @@ const MessageList: React.FC<Props> = ({}) => {
     type: "",
     comment: "",
     settled_at: "",
-    hidden: false
+    hidden: false,
   });
   const [showMessage, setShowMessage] = useState<boolean>(false);
   //const [lastId, setLastId] = useState(new Date().toISOString());
 
   useInterval(() => {
-    console.log("hello")
     fetch(API_URL + "/invoices/incoming", {
       method: "get",
       headers: { Authorization: accessToken! },
     })
       .then((res) => res.json())
       .then((data) => {
-        const newUserTransactions = data
-          .map((transaction: Transfer) => ({
-            ...transaction,
-            type: TYPE_TRANSFER,
-            payer_name:
-              transaction.payer_name == null
-                ? "anonymous"
-                : transaction.payer_name,
-          }));
-        if (lastTransfer && newUserTransactions.length && newUserTransactions[0].comment !== lastTransfer.comment && newUserTransactions[0].amount >= minDonationAmount){ 
-          console.log(newUserTransactions[0].comment)
-          setLastTransfer(newUserTransactions[0])
-          setShowMessage(true)
+        const newUserTransactions = data.map((transaction: Transfer) => ({
+          ...transaction,
+          type: TYPE_TRANSFER,
+          payer_name:
+            transaction.payer_name == null
+              ? "anonymous"
+              : transaction.payer_name,
+        }));
+        if (
+          lastTransfer &&
+          newUserTransactions.length &&
+          newUserTransactions[0].comment !== lastTransfer.comment &&
+          newUserTransactions[0].amount >= minDonationAmount
+        ) {
+          console.log(newUserTransactions[0].comment);
+          setLastTransfer(newUserTransactions[0]);
+          setShowMessage(true);
           setTimeout(() => {
-            setShowMessage(false) 
+            setShowMessage(false);
           }, SHOW_INTERVAL);
         }
       })
@@ -77,7 +80,7 @@ const MessageList: React.FC<Props> = ({}) => {
 
   return (
     <div>
-    {showMessage && <ListMessage transaction={lastTransfer!}></ListMessage>}
+      {showMessage && <ListMessage transaction={lastTransfer!}></ListMessage>}
     </div>
   );
 };
