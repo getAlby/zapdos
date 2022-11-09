@@ -12,32 +12,32 @@ const App = () => {
 
   return (
     <div className="App">
-      {page != '/overlay' && 
-      <nav className="bg-gray-800">
-        <div className="mx-auto px-8 max-w-7xl">
-          <div className="relative flex h-16 items-center justify-between">
-            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-              <div className="flex flex-shrink-0 items-center">
-                <a className="font-bold text-lg" href="/">🔥 Zapdos</a>
+      {page != "/overlay" && (
+        <nav className="bg-gray-800">
+          <div className="mx-auto px-8 max-w-7xl">
+            <div className="relative flex h-16 items-center justify-between">
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
+                  <a className="font-bold text-lg" href="/">
+                    🔥 Zapdos
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </nav>
-      }
+        </nav>
+      )}
 
       {code == null && page == "/" && <Login></Login>}
-      {page == '/dashboard' && 
-        <Dashboard></Dashboard>
-      }
-      {page == '/overlay' && (
+      {page == "/dashboard" && <Dashboard></Dashboard>}
+      {page == "/overlay" && (
         <div>
-        <div>
-          <Tipping />
-        </div>
-        <div>
-          <MessageList title={""}></MessageList>
-        </div>
+          <div>
+            <Tipping />
+          </div>
+          <div>
+            <MessageList title={""}></MessageList>
+          </div>
         </div>
       )}
     </div>
