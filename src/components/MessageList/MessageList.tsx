@@ -52,7 +52,7 @@ const MessageList: React.FC<Props> = ({}) => {
   useInterval(() => {
     fetch(API_URL + "/invoices/incoming", {
       method: "get",
-      headers: { Authorization: accessToken },
+      headers: { Authorization: accessToken! },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -85,7 +85,7 @@ const MessageList: React.FC<Props> = ({}) => {
     const data = new FormData();
     data.append("client_id", Config.clientId);
     data.append("client_secret", Config.clientSecret);
-    data.append("refresh_token", refreshToken);
+    data.append("refresh_token", refreshToken!);
     data.append("grant_type", "refresh_token");
     fetch(API_URL + "/oauth/token", { method: "post", body: data })
       .then((res) => res.json())
