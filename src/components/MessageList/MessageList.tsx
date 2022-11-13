@@ -18,8 +18,7 @@ const minDonationAmount = Number(params.get("min_amount")) || 0;
 
 // Parameters for displaying
 const POLLING_INTERVAL = 3000;
-//todo change to 1 hour
-const REFRESH_INTERVAL = 6000;
+const REFRESH_INTERVAL = 3600 * 1000;
 const SHOW_INTERVAL = Number(params.get("timeout")) * 1000 || 20000;
 
 const hiddenTransactionFilter = function (transaction: any) {
