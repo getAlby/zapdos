@@ -14,11 +14,12 @@ const CELLS_MAX_COUNT = 10;
 const API_URL = Config.apiHost;
 const query = window.location.search;
 const params = new URLSearchParams(query);
-const accessToken = params.get("access_token");
 const minDonationAmount = Number(params.get("min_amount")) || 0;
 
 // Parameters for displaying
 const POLLING_INTERVAL = 3000;
+//todo change to 1 hour
+const REFRESH_INTERVAL = 6000;
 const SHOW_INTERVAL = Number(params.get("timeout")) * 1000 || 20000;
 
 const hiddenTransactionFilter = function (transaction: any) {
@@ -44,12 +45,14 @@ const MessageList: React.FC<Props> = ({}) => {
     hidden: false,
   });
   const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [accessToken, setAccessToken] = useState(params.get("access_token"));
+  const [refreshToken, setRefreshToken] = useState(params.get("refresh_token"));
   //const [lastId, setLastId] = useState(new Date().toISOString());
 
   useInterval(() => {
     fetch(API_URL + "/invoices/incoming", {
       method: "get",
-      headers: { Authorization: accessToken! },
+      headers: { Authorization: accessToken },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -77,6 +80,21 @@ const MessageList: React.FC<Props> = ({}) => {
       })
       .catch((e) => console.log(e));
   }, POLLING_INTERVAL);
+
+  useInterval(() => {
+    const data = new FormData();
+    data.append("client_id", Config.clientId);
+    data.append("client_secret", Config.clientSecret);
+    data.append("refresh_token", refreshToken);
+    data.append("grant_type", "refresh_token");
+    fetch(API_URL + "/oauth/token", { method: "post", body: data })
+      .then((res) => res.json())
+      .then((data) => {
+        setAccessToken(data.access_token)
+        setRefreshToken(data.refresh_token)
+      });
+  }, REFRESH_INTERVAL);
+
 
   return (
     <div>
