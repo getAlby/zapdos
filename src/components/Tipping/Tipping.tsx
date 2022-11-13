@@ -20,7 +20,8 @@ const Tipping: React.FC = () => {
       .then((res) => res.json())
       .then((data) => {
           let parts = data.lightning_address.split("@")
-        	let words = bech32.toWords(Buffer.from(`https://${parts[0]}/.well-known/lnurlp/${parts[1]}`, 'utf8'));
+          let utf8Encode = new TextEncoder();
+        	let words = bech32.toWords(utf8Encode.encode(`https://${parts[0]}/.well-known/lnurlp/${parts[1]}`));
 	        let lnurl =  bech32.encode("lnurl", words, 1023);
           setLnurl(lnurl);
       })
