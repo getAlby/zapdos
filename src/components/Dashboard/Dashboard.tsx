@@ -175,7 +175,7 @@ data.append("code_verifier", code_verifier!);
         }
         {
           accessToken === "" &&
-           <div class="loader"></div> 
+           <div className="loader"></div> 
         }
         {/*
         <div className="w-50 bg-white shadow rounded-lg p-4 sm:p-6 h-full">
