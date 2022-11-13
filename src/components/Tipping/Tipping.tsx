@@ -1,5 +1,6 @@
 import "./style.css";
 import QRCode from "react-qr-code";
+import { bech32 } from "bech32";
 import { useEffect, useState } from "react";
 import { Config } from "../helpers";
 
@@ -18,7 +19,10 @@ const Tipping: React.FC = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setLnurl(data.lightning_address);
+          let parts = data.lightning_address.split("@")
+        	let words = bech32.toWords(Buffer.from(`https://${parts[0]}/.well-known/lnurlp/${parts[1]}`, 'utf8'));
+	        let lnurl =  bech32.encode("lnurl", words, 1023);
+          setLnurl(lnurl);
       })
       .catch((e) => console.log(e));
   }, []);
