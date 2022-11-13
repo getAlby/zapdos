@@ -12,6 +12,7 @@ const minDonationAmount = params.get("min_amount");
 
 const Tipping: React.FC = () => {
   const [lnurl, setLnurl] = useState<string>("");
+  const [lnAddress, setLnAddress] = useState<string>("");
   useEffect(() => {
     fetch(API_URL + "/user/value4value", {
       method: "get",
@@ -21,9 +22,10 @@ const Tipping: React.FC = () => {
       .then((data) => {
           let parts = data.lightning_address.split("@")
           let utf8Encode = new TextEncoder();
-        	let words = bech32.toWords(utf8Encode.encode(`https://${parts[0]}/.well-known/lnurlp/${parts[1]}`));
+        	let words = bech32.toWords(utf8Encode.encode(`https://${parts[1]}/.well-known/lnurlp/${parts[0]}`));
 	        let lnurl =  bech32.encode("lnurl", words, 1023);
           setLnurl(lnurl);
+          setLnAddress(data.lightning_address)
       })
       .catch((e) => console.log(e));
   }, []);
