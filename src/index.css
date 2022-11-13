@@ -17,5 +17,7 @@ code {
 
 input {
   border: 1px solid #000;
-  margin: 2px;
+  border-radius: 0.25rem;
+  margin-left: 2px;
+  padding: 1px;
 }
