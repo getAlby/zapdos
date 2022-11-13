@@ -166,11 +166,17 @@ data.append("code_verifier", code_verifier!);
           </div>
           </div>
         </div>
+        { accessToken !== "" &&
           <div>
            <button onClick={() => {navigator.clipboard.writeText(linkTemplate())}} className="text-white hover:text-grey-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-700 hover:bg-gray-600" aria-current="page">
           📋 {linkTemplate()}
           </button>
           </div>
+        }
+        {
+          accessToken === "" &&
+           <div class="loader"></div> 
+        }
         {/*
         <div className="w-50 bg-white shadow rounded-lg p-4 sm:p-6 h-full">
           <div className="flow-root">
