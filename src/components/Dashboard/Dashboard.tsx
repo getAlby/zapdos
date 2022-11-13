@@ -145,7 +145,7 @@ data.append("code_verifier", code_verifier!);
         <div className="flex flex-column baseline my-4">
           <div>
             <label>Minimum donation amount (sats) </label>
-            <input style type="text" value={minDonationAmount} onChange={event => {
+            <input type="text" value={minDonationAmount} onChange={event => {
               setMinDonationAmount(Number(event.target.value))
             }}>
             </input>
