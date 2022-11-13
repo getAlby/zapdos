@@ -19,5 +19,6 @@ input {
   border: 1px solid #000;
   border-radius: 0.25rem;
   margin-left: 2px;
+  text-align: center;
   padding: 1px;
 }
