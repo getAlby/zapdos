@@ -1,4 +1,3 @@
-import ListMessage from "./ListMessage/ListMessage";
 import React, { useState } from "react";
 import { Transfer, TYPE_TRANSFER } from "../helpers";
 import "./style.css";
@@ -39,7 +38,7 @@ class FilterHacked extends Filter {
 
 const filter = new FilterHacked();
 
-const MessageList: React.FC<Props> = ({}) => {
+const MessageList: React.FC<Props> = () => {
   const [lastTransfer, setLastTransfer] = useState<Transfer>({
     identifier: "",
     amount: 0,
@@ -49,10 +48,8 @@ const MessageList: React.FC<Props> = ({}) => {
     settled_at: "",
     hidden: false,
   });
-  const [showMessage, setShowMessage] = useState<boolean>(false);
   const [accessToken, setAccessToken] = useState(params.get("access_token"));
   const [refreshToken, setRefreshToken] = useState(params.get("refresh_token"));
-  //const [lastId, setLastId] = useState(new Date().toISOString());
 
   useInterval(() => {
     fetch(API_URL + "/invoices/incoming?items=20" + (lastTransfer.identifier ? "&q[since]=" + lastTransfer.identifier : ""), {
@@ -75,6 +72,9 @@ const MessageList: React.FC<Props> = ({}) => {
 
         setLastTransfer(newUserTransactions[0]);
         
+        // Reverse them so the newest ones appear on top
+        newUserTransactions.reverse();
+
         newUserTransactions.forEach((element: Transfer) => {
           if(element.amount < minDonationAmount)
             return;

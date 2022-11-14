@@ -13,8 +13,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <Toaster position="top-right" reverseOrder/>
-      {page != "/overlay" && (
+      <Toaster position="top-right"/>
+      {page !== "/overlay" && (
         <nav className="bg-gray-800">
           <div className="mx-auto px-8 max-w-7xl">
             <div className="relative flex h-16 items-center justify-between">
@@ -30,17 +30,13 @@ const App = () => {
         </nav>
       )}
 
-      {code == null && page == "/" && <Login></Login>}
-      {page == "/dashboard" && <Dashboard></Dashboard>}
-      {page == "/overlay" && (
-        <div>
-          <div>
+      {code === null && page === "/" && <Login></Login>}
+      {page === "/dashboard" && <Dashboard></Dashboard>}
+      {page === "/overlay" && (
+        <>
             <Tipping />
-          </div>
-          <div>
             <MessageList title={""}></MessageList>
-          </div>
-        </div>
+         </>
       )}
     </div>
   );
