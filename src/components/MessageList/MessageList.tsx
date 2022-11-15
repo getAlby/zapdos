@@ -5,6 +5,7 @@ import { useInterval } from "../../helpers";
 import { Config } from "../helpers";
 import toast from "react-hot-toast";
 import Filter from "bad-words";
+import { Toaster } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -109,7 +110,7 @@ const MessageList: React.FC<Props> = () => {
   }, REFRESH_INTERVAL);
 
   return (
-    <></>
+    <Toaster position = 'top-left' containerStyle={{ position: 'relative'}}/>
   );
 };
 

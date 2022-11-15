@@ -3,7 +3,6 @@ import MessageList from "./components/MessageList/MessageList";
 import Login from "./components/Login";
 import Tipping from "./components/Tipping/Tipping";
 import Dashboard from "./components/Dashboard/Dashboard";
-import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const query = window.location.search;
@@ -13,7 +12,6 @@ const App = () => {
 
   return (
     <div className="App">
-      <Toaster position="top-right"/>
       {page !== "/overlay" && (
         <nav className="bg-gray-800">
           <div className="mx-auto px-8 max-w-7xl">
