@@ -1,16 +1,17 @@
-import ListMessage from "./ListMessage/ListMessage";
 import React, { useState } from "react";
-import { BuySellTransaction, Transfer, TYPE_TRANSFER } from "../helpers";
+import { Transfer, TYPE_TRANSFER } from "../helpers";
 import "./style.css";
 import { useInterval } from "../../helpers";
 import { Config } from "../helpers";
+import toast from "react-hot-toast";
+import Filter from "bad-words";
+import { Toaster } from "react-hot-toast";
 
 interface Props {
   title: string;
   lastTransfer?: Transfer;
 }
 
-const CELLS_MAX_COUNT = 10;
 const API_URL = Config.apiHost;
 const query = window.location.search;
 const params = new URLSearchParams(query);
@@ -21,19 +22,24 @@ const POLLING_INTERVAL = 3000;
 const REFRESH_INTERVAL = 3600 * 1000;
 const SHOW_INTERVAL = Number(params.get("timeout")) * 1000 || 20000;
 
-const hiddenTransactionFilter = function (transaction: any) {
-  //var hidden = window.localStorage.getItem('hiddenTransactions');
-  //if(hidden) {
-  //  var hiddenTransactions = JSON.parse(hidden);
-  //  if(hiddenTransactions.includes(transaction.identifier)) {
-  //    return false;
-  //  }
-  //}
-  let hiddenTransactions: string[] = [];
-  return !hiddenTransactions.includes(transaction.identifier);
-};
+// https://github.com/web-mech/badwords/issues/93
+class FilterHacked extends Filter {
+  cleanHacked(string: string) {
+      try {
+          return this.clean(string);
+      } catch {
+          const joinMatch = this.splitRegex.exec(string);
+          const joinString = (joinMatch && joinMatch[0]) || '';
+          return string.split(this.splitRegex).map((word) => {
+            return this.isProfane(word) ? this.replaceWord(word) : word;
+          }).join(joinString);
+      }
+    }
+}
 
-const MessageList: React.FC<Props> = ({}) => {
+const filter = new FilterHacked();
+
+const MessageList: React.FC<Props> = () => {
   const [lastTransfer, setLastTransfer] = useState<Transfer>({
     identifier: "",
     amount: 0,
@@ -43,13 +49,11 @@ const MessageList: React.FC<Props> = ({}) => {
     settled_at: "",
     hidden: false,
   });
-  const [showMessage, setShowMessage] = useState<boolean>(false);
   const [accessToken, setAccessToken] = useState(params.get("access_token"));
   const [refreshToken, setRefreshToken] = useState(params.get("refresh_token"));
-  //const [lastId, setLastId] = useState(new Date().toISOString());
 
   useInterval(() => {
-    fetch(API_URL + "/invoices/incoming", {
+    fetch(API_URL + "/invoices/incoming?items=20" + (lastTransfer.identifier ? "&q[since]=" + lastTransfer.identifier : ""), {
       method: "get",
       headers: { Authorization: accessToken! },
     })
@@ -63,19 +67,30 @@ const MessageList: React.FC<Props> = ({}) => {
               ? "anonymous"
               : transaction.payer_name,
         }));
-        if (
-          lastTransfer &&
-          newUserTransactions.length &&
-          newUserTransactions[0].comment !== lastTransfer.comment &&
-          newUserTransactions[0].amount >= minDonationAmount
-        ) {
-          console.log(newUserTransactions[0].comment);
-          setLastTransfer(newUserTransactions[0]);
-          setShowMessage(true);
-          setTimeout(() => {
-            setShowMessage(false);
-          }, SHOW_INTERVAL);
-        }
+
+        if(!newUserTransactions.length)
+          return;
+
+        setLastTransfer(newUserTransactions[0]);
+        
+        // Reverse them so the newest ones appear on top
+        newUserTransactions.reverse();
+
+        newUserTransactions.forEach((element: Transfer) => {
+          if(element.amount < minDonationAmount)
+            return;
+
+          toast(<div>
+                  <b>{element.payer_name}</b> just sent  {element.amount} sats
+                  {element.comment && <>: {filter.cleanHacked(element.comment)}</>}
+              </div>, {
+            duration: SHOW_INTERVAL,
+            icon: "⚡",
+            style: {
+              maxWidth: 600,
+            }
+          } );
+        });
       })
       .catch((e) => console.log(e));
   }, POLLING_INTERVAL);
@@ -94,14 +109,8 @@ const MessageList: React.FC<Props> = ({}) => {
       });
   }, REFRESH_INTERVAL);
 
-
   return (
-    <div>
-      <ListMessage
-        showMessage={showMessage}
-        transaction={lastTransfer!}
-      ></ListMessage>
-    </div>
+    <Toaster position = 'top-left' containerStyle={{ position: 'relative'}}/>
   );
 };
 

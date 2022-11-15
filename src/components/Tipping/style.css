@@ -2,11 +2,11 @@
 .tipping {
   background: #fff;
   color: #000;
-  border-radius: 1em;
-  margin: 50px;
+  border-radius: 6px;
+  margin: 16px;
   display: inline-block;
   padding: 1em;
   text-align: center;
-  font-weight: bold;
   font-size: 0.9em;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1), 0 3px 3px rgba(0, 0, 0, 0.05)
 }
