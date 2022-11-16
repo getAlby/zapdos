@@ -31,10 +31,10 @@ const App = () => {
       {code === null && page === "/" && <Login></Login>}
       {page === "/dashboard" && <Dashboard></Dashboard>}
       {page === "/overlay" && (
-        <>
+        <div className="overlay">
             <Tipping />
             <MessageList title={""}></MessageList>
-         </>
+         </div>
       )}
     </div>
   );
