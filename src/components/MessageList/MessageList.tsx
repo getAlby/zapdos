@@ -88,6 +88,8 @@ const MessageList: React.FC<Props> = () => {
             icon: "⚡",
             style: {
               maxWidth: 600,
+              fontSize: 18,
+              padding: 5,
             }
           } );
         });
@@ -110,7 +112,7 @@ const MessageList: React.FC<Props> = () => {
   }, REFRESH_INTERVAL);
 
   return (
-    <Toaster position = 'top-left' containerStyle={{ position: 'relative'}}/>
+    <Toaster position = "top-left" containerStyle={{ position: 'relative', marginTop: -30, marginLeft: 14}}/>
   );
 };
 
