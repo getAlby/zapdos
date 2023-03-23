@@ -3,6 +3,7 @@ import MessageList from "./components/MessageList/MessageList";
 import Login from "./components/Login";
 import Tipping from "./components/Tipping/Tipping";
 import Dashboard from "./components/Dashboard/Dashboard";
+import ZapRotator from "./components/ZapRotator/ZapRotator";
 
 const App = () => {
   const query = window.location.search;
@@ -32,8 +33,9 @@ const App = () => {
       {page === "/dashboard" && <Dashboard></Dashboard>}
       {page === "/overlay" && (
         <div className="overlay">
-            <Tipping />
-            <MessageList title={""}></MessageList>
+            {/* <Tipping /> */}
+            {/* <MessageList title={""}></MessageList> */}
+            <ZapRotator />
          </div>
       )}
     </div>

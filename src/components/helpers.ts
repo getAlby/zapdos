@@ -5,11 +5,13 @@ export const TYPE_BUYSELL = "buysell";
 export const Config = {
 	appHost : "https://getalby.com/oauth",
 	apiHost : "https://api.getalby.com",
-	clientId : "qlO4P09vbP",
-    clientSecret: "",
-	redirectUri : "https://zapdos.albylabs.com/dashboard",
+	clientId : "alby_internal_client",
+    clientSecret: "zblqaACzgqUmHjLZdfXJ",
+	//redirectUri : "https://zapdos.albylabs.com/dashboard",
 	scope : "account:read%20invoices:read",
-	hostName:  "zapdos.albylabs.com"
+	hostName:  "localhost:8080",
+    redirectUri:  "http://localhost:8080/dashboard"
+    
 }
 
 // testing in production with test client
