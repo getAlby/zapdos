@@ -52,7 +52,7 @@ const ZapRotator: React.FC<Props> = () => {
   useInterval(() => {
     fetch(
       API_URL +
-        "/invoices/incoming?items=1" +
+        "/invoices/incoming?items=20" +
         (lastTransfer.identifier ? "&q[since]=" + lastTransfer.identifier : ""),
       {
         method: "get",

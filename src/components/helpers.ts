@@ -1,4 +1,4 @@
-xport const TYPE_TRANSFER = "transfer";
+export const TYPE_TRANSFER = "transfer";
 export const TYPE_BUYSELL = "buysell";
 
 //production
