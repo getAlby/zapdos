@@ -111,7 +111,7 @@ const ZapRotator: React.FC<Props> = () => {
   return (
     <>
       {transactions && transactions.length > 0 && lnAddress && (
-        <div className="m-5 h-6 overflow-hidden">
+        <div className="m-5 h-8 overflow-hidden">
           <AnimatePresence exitBeforeEnter>
             <Zap key={transactions[0].identifier} transaction={transactions[0]} onEnd={onEnd} lnAddress={lnAddress}></Zap>
           </AnimatePresence>

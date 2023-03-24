@@ -19,9 +19,9 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
       animate={{ translateY: 0 }}
       exit={{ translateY: -50 }}
       transition={{ duration: 4, ease: "backInOut" }}
-      className="bg-[#fdc422] h-6 text-[#1c1c1c]"
+      className="bg-[#fdc422] h-8 text-[#1c1c1c] w-full h-full flex items-center justify-center"
     >
-      incoming zap
+      <span>incoming zap</span>
     </motion.div>
   );
 
@@ -37,7 +37,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
     if (transaction.comment) {
       setContent(
         getMotionDiv(
-          <div key="comment">
+          <div key="comment" className="font-light">
             <Marquee gradient={false} speed={10}>
               {/* repeat the comment to avoid empty spaces for short texts */}
               {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
@@ -83,7 +83,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
     <>
       <motion.div
         key={transaction.identifier}
-        className="zap text-white text-center uppercase w-48 text-sm h-6 position-absolute overflow-hidden bg-black/25"
+        className="zap text-white text-center uppercase w-56 text-sm h-8 position-absolute overflow-hidden bg-black/25 flex items-center justify-center "
         initial={{ opacity: 0 }}
         animate={{ opacity: 100 }}
         exit={{ opacity: 0 }}
