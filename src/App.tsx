@@ -10,6 +10,7 @@ const App = () => {
   const params = new URLSearchParams(query);
   const code = params.get("code");
   const page = window.location.pathname;
+  const theme = params.get("theme") ?? "default";
 
   return (
     <div className="App">
@@ -33,9 +34,8 @@ const App = () => {
       {page === "/dashboard" && <Dashboard></Dashboard>}
       {page === "/overlay" && (
         <div className="overlay">
-            {/* <Tipping /> */}
-            {/* <MessageList title={""}></MessageList> */}
-            <ZapRotator />
+            {theme === "default" && <><Tipping /><MessageList title={""}></MessageList></>}
+            {theme === "zap" && <ZapRotator />}
          </div>
       )}
     </div>
