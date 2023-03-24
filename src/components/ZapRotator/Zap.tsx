@@ -37,7 +37,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
     if (transaction.comment) {
       setContent(
         getMotionDiv(
-          <div key="comment" className="font-light">
+          <div key="comment" className="font-light text-sm">
             <Marquee gradient={false} speed={20}>
               {/* repeat the comment to avoid empty spaces for short texts */}
               {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
@@ -52,7 +52,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
 
   useTimeout(
     () => {
-      setContent(getMotionDiv(<div key="address">{lnAddress.split("@")[0]}@<span className="text-[#fdc422]">getalby.com</span></div>));
+      setContent(getMotionDiv(<div key="address" className="text-sm">{lnAddress.split("@")[0]}@<span className="text-[#fdc422]">getalby.com</span></div>));
     },
     transaction.comment ? 22000 : 13000
   );
@@ -83,7 +83,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
     <>
       <motion.div
         key={transaction.identifier}
-        className="zap text-white text-center uppercase w-56 text-sm h-8 position-absolute overflow-hidden bg-black/25 flex items-center justify-center "
+        className="zap text-white text-center uppercase w-56 text-sm h-8 position-absolute overflow-hidden bg-[#050605]/[.88] flex items-center justify-center "
         initial={{ opacity: 0 }}
         animate={{ opacity: 100 }}
         exit={{ opacity: 0 }}
