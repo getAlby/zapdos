@@ -3,12 +3,14 @@ import MessageList from "./components/MessageList/MessageList";
 import Login from "./components/Login";
 import Tipping from "./components/Tipping/Tipping";
 import Dashboard from "./components/Dashboard/Dashboard";
+import ZapRotator from "./components/ZapRotator/ZapRotator";
 
 const App = () => {
   const query = window.location.search;
   const params = new URLSearchParams(query);
   const code = params.get("code");
   const page = window.location.pathname;
+  const theme = params.get("theme") ?? "default";
 
   return (
     <div className="App">
@@ -32,8 +34,8 @@ const App = () => {
       {page === "/dashboard" && <Dashboard></Dashboard>}
       {page === "/overlay" && (
         <div className="overlay">
-            <Tipping />
-            <MessageList title={""}></MessageList>
+            {theme === "default" && <><Tipping /><MessageList title={""}></MessageList></>}
+            {theme === "zap" && <ZapRotator />}
          </div>
       )}
     </div>
