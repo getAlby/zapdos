@@ -1,17 +1,15 @@
-export const TYPE_TRANSFER = "transfer";
+xport const TYPE_TRANSFER = "transfer";
 export const TYPE_BUYSELL = "buysell";
 
 //production
 export const Config = {
 	appHost : "https://getalby.com/oauth",
 	apiHost : "https://api.getalby.com",
-	clientId : "alby_internal_client",
-    clientSecret: "zblqaACzgqUmHjLZdfXJ",
-	//redirectUri : "https://zapdos.albylabs.com/dashboard",
+	clientId : "qlO4P09vbP",
+    clientSecret: "",
+	redirectUri : "https://zapdos.albylabs.com/dashboard",
 	scope : "account:read%20invoices:read",
-	hostName:  "localhost:8080",
-    redirectUri:  "http://localhost:8080/dashboard"
-    
+	hostName:  "zapdos.albylabs.com"
 }
 
 // testing in production with test client
