@@ -39,7 +39,7 @@ const ZapRotator: React.FC<Props> = () => {
   useInterval(() => {
     fetch(
       API_URL +
-        "/invoices/incoming?items=20" +
+        "/invoices/incoming?items=1" +
         (lastTransfer.identifier ? "&q[since]=" + lastTransfer.identifier : ""),
       {
         method: "get",
@@ -92,27 +92,18 @@ const ZapRotator: React.FC<Props> = () => {
   }, REFRESH_INTERVAL);
 
   function onEnd() {
-    console.log("onEnd()");
     setTransactions(transactions?.slice(1));
-    console.log(transactions);
   }
 
   return (
     <>
       {transactions && transactions.length > 0 && (
-        <AnimatePresence exitBeforeEnter>
-          <Zap key={transactions[0].identifier} transaction={transactions[0]} onEnd={onEnd}></Zap>
-        </AnimatePresence>
+        <div className="m-5 h-6 overflow-hidden">
+          <AnimatePresence exitBeforeEnter>
+            <Zap key={transactions[0].identifier} transaction={transactions[0]} onEnd={onEnd}></Zap>
+          </AnimatePresence>
+        </div>
       )}
-      {/* <div className="bg-gray-300 text-black p-2 m-5">
-        <div className="font-bold">Debug ({transactions?.length})</div>
-        {transactions &&
-          transactions.map((x) => (
-            <div key={x.identifier}>
-              {x.amount} {x.comment}
-            </div>
-          ))}
-      </div> */}
     </>
   );
 };

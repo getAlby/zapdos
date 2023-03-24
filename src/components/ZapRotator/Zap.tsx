@@ -11,48 +11,67 @@ interface Props {
 }
 
 const Zap: React.FC<Props> = ({ transaction, onEnd }) => {
-  const [content, setContent] = useState(<div key="zap">Incoming zap</div>);
+  const [content, setContent] = useState(
+    <motion.div
+      key="zap"
+      initial={{ translateY: 50 }}
+      animate={{ translateY: 0 }}
+      exit={{ translateY: -50 }}
+      transition={{ duration: 4, ease: "backInOut" }}
+      className="bg-[#fdc422] h-6 text-[#1c1c1c]"
+    >
+      incoming zap
+    </motion.div>
+  );
 
   useTimeout(() => {
-    setContent(
-      <div key="sats">
-        <span className="text-white">{transaction.amount}</span> sats
+    setContent(getMotionDiv(
+      <div key="sats" className="text-[#fdc422]">
+        <span>{transaction.amount}</span> sats
       </div>
-    );
-  }, 3000);
+    ));
+  }, 6000);
 
   useTimeout(() => {
     if (transaction.comment) {
       setContent(
-        <div key="comment">
-          <Marquee gradientColor={[251, 191, 36]} gradientWidth={10} speed={50}>
-            {transaction.comment}
-          </Marquee>
-        </div>
+        getMotionDiv(
+          <div key="comment">
+            <Marquee gradient={false} speed={10}>
+              {/* repeat the comment to avoid empty spaces for short texts */}
+              {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
+              {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
+              {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
+            </Marquee>
+          </div>
+        )
       );
     }
-  }, 6000);
+  }, 13000);
 
   useTimeout(
     () => {
-      setContent(<div key="address">nogood@getalby.com</div>);
+      setContent(getMotionDiv(<div key="address">nogood@<span className="text-[#fdc422]">getalby.com</span></div>));
     },
-    transaction.comment ? 13000 : 6000
+    transaction.comment ? 22000 : 13000
   );
 
-  useTimeout(() => {
-    onEnd();
-  }, transaction.comment ? 17000 : 10000);
+  useTimeout(
+    () => {
+      onEnd();
+    },
+    transaction.comment ? 32000 : 21000
+  );
 
   function getMotionDiv(content: JSX.Element): JSX.Element {
-    console.log(content, content.key);
     return (
       <motion.div
         key={content.key}
-        initial={{ translateY: 30 }}
-        animate={{ translateY: 0 }}
-        exit={{ translateY: -30 }}
-        transition={{ ease: "backInOut", duration: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 100 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 4, delay: 0.5 }}
+        className="px-1"
       >
         {content}
       </motion.div>
@@ -63,15 +82,15 @@ const Zap: React.FC<Props> = ({ transaction, onEnd }) => {
     <>
       <motion.div
         key={transaction.identifier}
-        className="zap bg-amber-400 text-black m-5 p-1 text-center uppercase w-64 text-sm"
+        className="zap text-white text-center uppercase w-48 text-sm h-6 position-absolute overflow-hidden bg-black/25"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={{ opacity: 100 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 3 }}
       >
-        <div className="h-5 position-absolute overflow-hidden">
-          <AnimatePresence exitBeforeEnter>{getMotionDiv(content)}</AnimatePresence>
-        </div>
+        <AnimatePresence exitBeforeEnter>
+          {content}
+        </AnimatePresence>
       </motion.div>
     </>
   );
