@@ -38,7 +38,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
       setContent(
         getMotionDiv(
           <div key="comment" className="font-light">
-            <Marquee gradient={false} speed={10}>
+            <Marquee gradient={false} speed={20}>
               {/* repeat the comment to avoid empty spaces for short texts */}
               {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
               {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
