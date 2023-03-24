@@ -42,7 +42,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
               {/* repeat the comment to avoid empty spaces for short texts */}
               {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
               {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
-              {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}&nbsp;
+              {transaction.comment}&nbsp;{transaction.comment}&nbsp;{transaction.comment}
             </Marquee>
           </div>
         )
