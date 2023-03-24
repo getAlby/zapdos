@@ -8,9 +8,10 @@ import useTimeout from "../../helpers/timeoutHook";
 interface Props {
   transaction: Transfer;
   onEnd: () => void;
+  lnAddress: string;
 }
 
-const Zap: React.FC<Props> = ({ transaction, onEnd }) => {
+const Zap: React.FC<Props> = ({ transaction, onEnd, lnAddress }) => {
   const [content, setContent] = useState(
     <motion.div
       key="zap"
@@ -51,7 +52,7 @@ const Zap: React.FC<Props> = ({ transaction, onEnd }) => {
 
   useTimeout(
     () => {
-      setContent(getMotionDiv(<div key="address">nogood@<span className="text-[#fdc422]">getalby.com</span></div>));
+      setContent(getMotionDiv(<div key="address">{lnAddress.split("@")[0]}@<span className="text-[#fdc422]">getalby.com</span></div>));
     },
     transaction.comment ? 22000 : 13000
   );

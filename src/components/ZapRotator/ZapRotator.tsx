@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Transfer, TYPE_TRANSFER } from "../helpers";
 import "./style.css";
 import { useInterval } from "../../helpers";
@@ -35,6 +35,19 @@ const ZapRotator: React.FC<Props> = () => {
   const [transactions, setTransactions] = useState<Transfer[]>();
   const [accessToken, setAccessToken] = useState(params.get("access_token"));
   const [refreshToken, setRefreshToken] = useState(params.get("refresh_token"));
+  const [lnAddress, setLnAddress] = useState<string>();
+
+  useEffect(() => {
+    fetch(API_URL + "/user/value4value", {
+      method: "get",
+      headers: { Authorization: accessToken! },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLnAddress(data.lightning_address)          
+      })
+      .catch((e) => console.log(e));
+  }, []);
 
   useInterval(() => {
     fetch(
@@ -97,10 +110,10 @@ const ZapRotator: React.FC<Props> = () => {
 
   return (
     <>
-      {transactions && transactions.length > 0 && (
+      {transactions && transactions.length > 0 && lnAddress && (
         <div className="m-5 h-6 overflow-hidden">
           <AnimatePresence exitBeforeEnter>
-            <Zap key={transactions[0].identifier} transaction={transactions[0]} onEnd={onEnd}></Zap>
+            <Zap key={transactions[0].identifier} transaction={transactions[0]} onEnd={onEnd} lnAddress={lnAddress}></Zap>
           </AnimatePresence>
         </div>
       )}
