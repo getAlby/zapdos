@@ -18,7 +18,7 @@ const params = new URLSearchParams(query);
 const minDonationAmount = Number(params.get("min_amount")) || 0;
 
 // Parameters for displaying
-const POLLING_INTERVAL = 3000;
+const POLLING_INTERVAL = 10000;
 const REFRESH_INTERVAL = 3600 * 1000;
 const SHOW_INTERVAL = Number(params.get("timeout")) * 1000 || 20000;
 
