@@ -19,7 +19,7 @@ const minDonationAmount = Number(params.get("min_amount")) || 0;
 
 // Parameters for displaying
 const POLLING_INTERVAL = 10000;
-const REFRESH_INTERVAL = 3600 * 1000;
+const REFRESH_INTERVAL = 3600 * 504;
 const SHOW_INTERVAL = Number(params.get("timeout")) * 1000 || 20000;
 
 // https://github.com/web-mech/badwords/issues/93
@@ -53,6 +53,10 @@ const MessageList: React.FC<Props> = () => {
   const [refreshToken, setRefreshToken] = useState(params.get("refresh_token"));
 
   useInterval(() => {
+
+    if(!accessToken)
+      return;
+
     fetch(API_URL + "/invoices/incoming?items=20" + (lastTransfer.identifier ? "&q[since]=" + lastTransfer.identifier : ""), {
       method: "get",
       headers: { Authorization: accessToken! },

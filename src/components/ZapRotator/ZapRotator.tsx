@@ -6,6 +6,7 @@ import { Config } from "../helpers";
 import Zap from "./Zap";
 import { BadWordFilter } from "../../helpers/badwordfilter";
 import { AnimatePresence } from "framer-motion";
+import { access } from "fs";
 
 interface Props {
   lastTransfer?: Transfer;
@@ -18,7 +19,7 @@ const minDonationAmount = Number(params.get("min_amount")) || 0;
 
 // Parameters for displaying
 const POLLING_INTERVAL = 10000;
-const REFRESH_INTERVAL = 3600 * 1000;
+const REFRESH_INTERVAL = 3600 * 504;
 
 const filter = new BadWordFilter();
 
@@ -50,6 +51,9 @@ const ZapRotator: React.FC<Props> = () => {
   }, []);
 
   useInterval(() => {
+    if(!accessToken)
+      return;
+
     fetch(
       API_URL +
         "/invoices/incoming?items=3" +
